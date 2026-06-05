@@ -1,0 +1,998 @@
+
+body{
+    opacity: 0;
+    animation: pageFadeIn .6s ease forwards;
+}
+
+@keyframes pageFadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+/* register */
+.two{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.three{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/* choix rôle  register*/
+ .option-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: #0e5ed7d7;
+  background-color: #a5d5ff;
+}
+
+.option-card input[type="radio"] {
+  margin-right: 10px;
+}
+
+.option-card.selected {
+  border-color: #0e5ed7d7;
+  background-color: #e7f1ff;
+} 
+
+/* index */
+.navbar{
+    padding: 18px 0;
+    background: rgba(255,255,255,0.95) !important;
+    backdrop-filter: blur(10px);
+
+}
+
+.navbar-brand{
+    font-size: 1.7rem;
+    transition: 0.3s;
+}
+
+.navbar-brand:hover{
+    transform: scale(1.03);
+}
+
+.nav-link{
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link::after{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    left: 0;
+    bottom: -3px;
+    background: #0d6efd;
+    transition: 0.3s;
+}
+
+.nav-link:hover::after{
+    width: 100%;
+}
+.nav-item{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+
+.btn{
+    border-radius: 12px;
+    padding: 8px 18px;
+    font-weight: 600;
+}
+
+.btn-primary{
+    box-shadow: 0 4px 15px rgba(13,110,253,0.3);
+}
+
+.btn-primary:hover{
+    transform: translateY(-2px);
+}
+/* main */
+.hero{
+    padding: 120px 0;
+    background: linear-gradient(
+        180deg,
+        #eff6ff,
+        #ffffff
+    );
+}
+/* transition scroll avec js */
+.reveal{
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all .8s ease;
+}
+
+.reveal.active{
+    opacity: 1;
+    transform: translateY(0);
+}
+/* trois cartes */
+.how-card{
+    padding: 40px 30px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    transition: .4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.how-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 20px 45px rgba(37,99,235,.15);
+}
+
+.step-number{
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(37,99,235,.08);
+}
+
+.icon-wrapper{
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: rgba(37,99,235,.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-wrapper i{
+    font-size: 2.2rem;
+    color: #2563eb;
+}
+
+.feature-card{
+    background: white;
+    padding: 35px 25px;
+    border-radius: 24px;
+    height: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    transition: .4s;
+}
+
+.feature-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 20px 45px rgba(37,99,235,.15);
+}
+
+.feature-icon{
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(37,99,235,.1);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feature-icon i{
+    font-size: 2rem;
+    color: #2563eb;
+}
+
+.feature-card h5{
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.feature-card p{
+    color: #64748b;
+    margin-bottom: 0;
+}
+/* SECTION CTA (Call To Action) */
+/* Ajoute un grand espace au-dessus et en dessous de la section */
+.cta-section{
+    padding: 100px 0;
+}
+
+/* Boîte principale contenant le CTA */
+.cta-box{
+
+    /* Fond dégradé bleu moderne */
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    /* Couleur du texte */
+    color: white;
+
+    /* Espacement intérieur :
+       80px en haut/bas
+       50px à gauche/droite */
+    padding: 80px 50px;
+
+    /* Coins arrondis */
+    border-radius: 30px;
+
+    /* Ombre portée pour donner un effet de profondeur */
+    box-shadow: 0 20px 50px rgba(37,99,235,.25);
+}
+
+/* Style appliqué uniquement au paragraphe du CTA(Call To Action) */
+.cta-box p{
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Style général du bouton */
+.cta-box .btn{
+    border-radius: 15px;
+
+    /* Animation fluide lors du survol */
+    transition: .3s;
+}
+
+/* Effet lorsque la souris passe sur le bouton */
+.cta-box .btn:hover{
+    transform: translateY(-4px);
+}
+
+/*   FOOTER  */
+
+/* Conteneur principal du footer */
+.footer{
+
+    /* Couleur de fond bleu très foncé */
+    background: #081225;
+
+    /* Espacement intérieur en haut */
+    padding-top: 70px;
+
+    /* Espacement intérieur en bas */
+    padding-bottom: 20px;
+
+    /* Couleur générale du texte */
+    color: white;
+}
+
+/* Style du logo IFRI MentorLink */
+.footer-logo{
+
+    /* Texte en gras */
+    font-weight: 700;
+
+    /* Espace sous le logo */
+    margin-bottom: 25px;
+}
+
+/* Icône du logo */
+.footer-logo i{
+
+    /* Espace entre l'icône et le texte */
+    margin-right: 8px;
+}
+
+/* Paragraphes du footer */
+.footer p{
+
+    /* Couleur gris clair */
+    color: #b8c1d1;
+
+    /* Augmente l'espace entre les lignes */
+    line-height: 1.8;
+}
+
+/* Titres des colonnes :
+   Plateforme, Filièress, Contact */
+.footer h5{
+
+    /* Semi-gras */
+    font-weight: 600;
+
+    /* Espace sous le titre */
+    margin-bottom: 25px;
+}
+
+/* Liste des liens */
+.footer-links{
+
+    /* Supprime les puces */
+    list-style: none;
+
+    /* Supprime le retrait par défaut */
+    padding-left: 0;
+}
+
+/* Chaque élément de la liste */
+.footer-links li{
+
+    /* Texte gris clair */
+    color: #b8c1d1;
+
+    /* Espace entre les lignes */
+    margin-bottom: 15px;
+}
+
+/* Liens cliquables */
+.footer-links a{
+
+    /* Supprime le soulignement */
+    text-decoration: none;
+
+    /* Couleur du texte */
+    color: #b8c1d1;
+
+    /* Animation fluide */
+    transition: .3s;
+}
+
+/* Effet au survol de la souris */
+.footer-links a:hover{
+
+    /* Le texte devient blanc */
+    color: white;
+}
+
+/* Ligne de séparation horizontale */
+.footer-divider{
+
+    /* Couleur très discrète */
+    border-color: rgba(255,255,255,.08);
+
+    /* Espacement au-dessus */
+    margin-top: 40px;
+
+    /* Espacement en dessous */
+    margin-bottom: 30px;
+}
+
+/* Texte de copyright */
+.copyright{
+
+    /* Couleur gris clair */
+    color: #b8c1d1;
+
+    /* Supprime la marge du bas */
+    margin-bottom: 0;
+}
+
+/* dashboard */
+/* Conteneur principal
+ */
+.dashboard-container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* Sidebar
+ */
+.sidebar{
+    width:280px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:#08142f;
+    color:white;
+    padding:30px;
+}
+
+
+.logo{
+    font-size:1.5rem;
+    font-weight:bold;
+    margin-bottom:50px;
+}
+
+.logo i{
+    color:#2563eb;
+    margin-right:10px;
+}
+
+.menu li{
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.menu li:hover{
+    background:#10214a;
+}
+
+.menu .active{
+    background:#2563eb;
+}
+
+/* Profil utilisateur
+ */
+.user-box{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 20px; 
+}
+.user-box h6{
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+}
+
+.user-box small{
+    color: rgba(255,255,255,.7);
+}
+.logout-btn{
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    text-decoration: none;
+
+    color: #ff5b5b;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.logout-btn:hover{
+
+    color: #ff8080;
+
+    transform: translateX(5px);
+}
+.sidebar-footer{
+
+    margin-top: auto;
+
+    padding: 25px;
+
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+ .menu{
+    flex:1;
+    margin:0;
+    padding:0;
+} 
+
+
+.user-info h6{
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+}
+
+.user-info small{
+    color: rgba(255,255,255,.7);
+}
+
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+/* Partie droite
+ */
+.main-content{
+    flex:1;
+    padding:30px;
+    background:#f5f7fb;
+    overflow-y: auto;
+}
+
+/* Header
+ */
+.hero-dashboard{
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color:white;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    margin-bottom:30px;
+}
+
+/* Statistiques */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.stat-card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.stat-card i{
+    font-size:2rem;
+    color:#2563eb;
+}
+
+.stat-card h2{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+/* Progression */
+
+.progress-section{
+    margin-top:30px;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   CONTENEUR DES DEUX CARTES
+=========================== */
+
+.dashboard-content{
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 30px;
+
+    margin-top: 30px;
+}
+@media (max-width: 992px){
+
+    .dashboard-content{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* ===========================
+   CARTE
+=========================== */
+
+.dashboard-card{
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   TITRE
+=========================== */
+
+.section-header{
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.section-header h3{
+
+    font-size: 1.3rem;
+
+    font-weight: 700;
+}
+
+/* ===========================
+   ETAT VIDE
+=========================== */
+
+.empty-state{
+
+    text-align: center;
+
+    padding: 50px 20px;
+}
+
+.empty-state i{
+
+    font-size: 4rem;
+
+    color: #2563eb;
+
+    margin-bottom: 15px;
+
+    display: block;
+}
+
+.empty-state h5{
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.empty-state p{
+
+    color: #6c757d;
+
+    margin-bottom: 20px;
+}
+
+/* offres et demandes */
+.main-content{
+    flex:1;
+    padding:40px;
+}
+
+.offers-hero{
+    margin-bottom:30px;
+}
+
+.offers-hero h1{
+    font-size:2.4rem;
+    font-weight:700;
+}
+
+.offers-hero p{
+    color:#6b7280;
+}
+
+.publish-section,
+.search-section{
+    margin-bottom:30px;
+}
+
+.result-card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+    transition:.3s;
+}
+
+.result-card:hover{
+    transform:translateY(-5px);
+}
+
+.result-card h5{
+    margin:15px 0;
+}
+
+.nav-pills .nav-link{
+    border-radius:12px;
+}
+
+.section-header{
+    margin-bottom:20px;
+}
+
+/* Profil css */
+.profile-page{
+    padding:40px;
+}
+
+.profile-header{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.profile-avatar{
+
+    width:100px;
+
+    height:100px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:2.5rem;
+}
+
+.profile-info{
+    flex:1;
+    margin-left:25px;
+}
+
+.profile-info h2{
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.profile-info p{
+    color:#6b7280;
+    margin:0;
+}
+
+.profile-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+
+    height:100%;
+}
+
+.profile-card h4{
+
+    margin-bottom:20px;
+
+    font-weight:600;
+}
+
+.tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+}
+
+.tag{
+
+    background:#e8f0ff;
+
+    color:#2563eb;
+
+    padding:8px 15px;
+
+    border-radius:50px;
+
+    font-weight:500;
+}
+
+.tag.danger{
+
+    background:#ffe5e5;
+
+    color:#e53935;
+}
+
+.availability-list{
+
+    list-style:none;
+
+    padding:0;
+
+    margin:0;
+}
+
+.availability-list li{
+
+    padding:10px 0;
+
+    border-bottom:1px solid #eee;
+}
+.modal-content{
+
+    border: none;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.modal-header{
+
+    background: #2563eb;
+
+    color: white;
+}
+
+.modal-title{
+
+    font-weight: 600;
+}
+
+.modal-body{
+
+    padding: 30px;
+}
+
+.modal-footer{
+
+    padding: 20px 30px;
+}
+.menu li a {
+    text-decoration: none;
+    color: white;
+}
+
+/* notification css */
+/* =========================
+   En-tête Notifications
+========================= */
+
+.entete-notifications{
+
+    margin-bottom: 30px;
+}
+
+.entete-notifications h1{
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    color: #08142f;
+}
+
+.entete-notifications p{
+
+    color: #6b7280;
+
+    margin-top: 10px;
+}
+
+/* 
+   Bouton d'action
+ */
+
+.actions-notifications{
+
+    margin-bottom: 30px;
+}
+
+/* 
+   Liste des notifications
+ */
+
+.liste-notifications{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+/* 
+   Carte notification
+ */
+
+.carte-notification{
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+
+    transition: .3s;
+}
+
+/* Effet au survol */
+
+.carte-notification:hover{
+
+    transform: translateY(-5px);
+}
+
+/* Notifications non lues */
+
+.non-lue{
+
+    border-left: 5px solid #2563eb;
+
+    background: #f8fbff;
+}
+
+/* Icône */
+
+.icone-notification{
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 1.4rem;
+
+    flex-shrink: 0;
+}
+
+/* Contenu */
+
+.contenu-notification h5{
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: #08142f;
+}
+
+.contenu-notification p{
+
+    margin-bottom: 5px;
+
+    color: #6b7280;
+}
+
+.contenu-notification small{
+
+    color: #9ca3af;
+}

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="assets/js/main.js"></script>
+    <title>IFRI MentorLink</title>
+</head>
+
+<body>
+    <!-- Conteneur principal -->
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>IFRI MentorLink</span>
+            </div>
+
+            <!-- Menu -->
+            <ul class="menu list-unstyled">
+
+                <li>
+                    <a href="dashboard.html">
+                        <i class="bi bi-grid"></i>
+                        Tableau de Bord
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Offres&Demandes.html">
+                        <i class="bi bi-card-checklist"></i>
+                        Offres & Demandes
+                    </a>
+                </li>
+
+                <li>
+                    <i class="bi bi-people"></i>
+                    Correspondances
+                </li>
+
+                <li>
+                    <i class="bi bi-chat-dots"></i>
+                    Messages
+                </li>
+
+                <li>
+                    <i class="bi bi-calendar-event"></i>
+                    Sessions
+                </li>
+
+                <li class="active">
+                    <a href="profile.html">
+                        <i class="bi bi-person"></i>
+                        Profil
+                    </a>
+                </li>
+
+                <li>
+                    <a href="notifications.html">
+                        <i class="bi bi-bell"></i>
+                        Notifications
+                    </a>
+                </li>
+
+            </ul>
+            <div class="sidebar-footer">
+                <!-- Profil utilisateur -->
+                <div class="user-box">
+
+                    <div class="avatar">
+                        US
+                    </div>
+
+                    <div class="user-info">
+                        <h6>Utilisateur</h6>
+                        <small>Étudiant en {filière}</small>
+                    </div>
+
+                </div>
+                <a href="#" class="logout-btn">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Déconnexion
+
+                </a>
+
+
+            </div>
+
+        </aside>
+        <main class="main-content">
+            <section class="profile-page">
+
+                <div class="profile-header">
+
+                    <div class="profile-avatar">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+                    <div class="profile-info">
+
+                        <h2>Nom Prénom</h2>
+
+                        <p>
+                            Licence 3 • Génie Logiciel
+                        </p>
+
+                    </div>
+
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+
+                        <i class="bi bi-pencil-square"></i>
+                        Modifier le profil
+
+                    </button>
+
+                </div>
+
+                <div class="row g-4 mt-3">
+
+                    <div class="col-lg-6">
+
+                        <div class="profile-card">
+
+                            <h4>
+
+                                <i class="bi bi-award-fill"></i>
+
+                                Compétences maîtrisées
+
+                            </h4>
+
+                            <div class="tags">
+
+                                <span class="tag">Vos compétences apparaîtront ici.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="profile-card">
+
+                            <h4>
+
+                                <i class="bi bi-lightbulb-fill"></i>
+
+                                Besoin d'aide sur
+
+                            </h4>
+
+                            <div class="tags">
+
+                                <span class="tag danger">
+                                    Vos lacunes apparaîtront ici
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row g-4 mt-2">
+
+                    <div class="col-lg-6">
+
+                        <div class="profile-card">
+
+                            <h4>
+
+                                <i class="bi bi-calendar-week"></i>
+
+                                Disponibilités
+
+                            </h4>
+
+                            <ul class="availability-list">
+
+                                <li>Aucune disponibilité renseignée</li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="profile-card">
+
+                            <h4>
+
+                                <i class="bi bi-person-lines-fill"></i>
+
+                                À propos
+
+                            </h4>
+
+                            <p>
+
+                                Votre bio apparaîtra ici.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="profile-card mt-4">
+
+                    <h4>
+
+                        <i class="bi bi-stars"></i>
+
+                        Centres d'intérêt
+
+                    </h4>
+
+                    <div class="tags">
+
+                        <span class="tag">
+                            Aucun centre d'intérêt mentionné.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Modal Modification du Profil -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1">
+
+            <div class="modal-dialog modal-lg">
+
+                <div class="modal-content">
+
+                    <!-- En-tête -->
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">
+
+                            <i class="bi bi-person-gear me-2"></i>
+
+                            Modifier mon profil
+
+                        </h4>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+
+                    </div>
+
+                    <!-- Corps -->
+                    <div class="modal-body">
+
+                        <form>
+
+                            <div class="row g-3">
+
+                                <!-- Nom -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Nom
+                                    </label>
+
+                                    <input type="text" class="form-control" placeholder="Votre nom">
+
+                                </div>
+
+                                <!-- Prénom -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Prénom
+                                    </label>
+
+                                    <input type="text" class="form-control" placeholder="Votre prénom">
+
+                                </div>
+
+                                <!-- Filière -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Filière
+                                    </label>
+
+                                    <input type="text" class="form-control" placeholder="Génie Logiciel">
+
+                                </div>
+
+                                <!-- Niveau -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Niveau d'étude
+                                    </label>
+
+                                    <select class="form-select">
+
+                                        <option>Licence 1</option>
+                                        <option>Licence 2</option>
+                                        <option>Licence 3</option>
+                                        <option>Master 1</option>
+                                        <option>Master 2</option>
+
+                                    </select>
+
+                                </div>
+
+                                <!-- Photo -->
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Photo de profil
+                                    </label>
+
+                                    <input type="file" class="form-control">
+
+                                </div>
+
+                                <!-- Compétences -->
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Compétences maîtrisées
+                                    </label>
+
+                                    <input type="text" class="form-control" placeholder="HTML, CSS, JavaScript...">
+
+                                </div>
+
+                                <!-- Lacunes -->
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Matières où vous avez besoin d'aide
+                                    </label>
+
+                                    <input type="text" class="form-control" placeholder="Algorithmique, Réseaux...">
+
+                                </div>
+
+                                <!-- Disponibilités -->
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Disponibilités habituelles
+                                    </label>
+
+                                    <textarea class="form-control" rows="3"
+                                        placeholder="Ex : Lundi 18h-20h, Samedi 9h-12h">
+                            </textarea>
+
+                                </div>
+
+                                <!-- Bio -->
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Bio / Informations supplémentaires
+                                    </label>
+
+                                    <textarea class="form-control" rows="4" placeholder="Parlez un peu de vous...">
+                            </textarea>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <!-- Pied -->
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+
+                            Annuler
+
+                        </button>
+
+                        <button type="button" class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            Enregistrer
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
