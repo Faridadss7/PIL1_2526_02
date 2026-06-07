@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil du mentor</title>
+</head>
+<body>
+    <h1>{{ mentor.prenom }} {{ mentor.nom }}</h1>
+    <p>Email : {{ mentor.email }}</p>
+    <p>Filière : {{ mentor.filiere }}</p>
+    <p>Niveau : {{ mentor.niveau }}</p>
+    <p>Bio : {{ mentor.bio }}</p>
+
+    <h2>Points forts</h2>
+    <ul>
+        {% for pf in points_forts %}
+        <li>{{ pf.competence.nom }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Disponibilités</h2>
+    <ul>
+        {% for d in disponibilites %}
+        <li>{{ d.jour }} : {{ d.heure_debut }} - {{ d.heure_fin }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'resultats' %}">Retour aux résultats</a>
+</body>
+</html>
