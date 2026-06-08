@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="assets/js/main.js"></script>
+    <title>IFRI MentorLink</title>
+</head>
+
+<body>
+    <!-- Conteneur principal -->
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>IFRI MentorLink</span>
+            </div>
+
+            <!-- Menu -->
+            <ul class="menu list-unstyled">
+
+                <li>
+                    <a href="dashboard.html">
+                        <i class="bi bi-grid"></i>
+                        Tableau de Bord
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Offres&Demandes.html">
+                        <i class="bi bi-card-checklist"></i>
+                        Offres & Demandes
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="matchings.html">
+                        <i class="bi bi-people"></i>
+                        Correspondances
+                    </a>
+                </li>
+
+                <li>
+                    <a href="messages.html">
+                        <i class="bi bi-chat-dots"></i>
+                        Messages
+                    </a>
+                </li>
+
+                <li>
+                    <a href="sessions.html">
+                        <i class="bi bi-calendar-event"></i>
+                        Sessions
+                    </a>
+                </li>
+
+                <li>
+                    <a href="profile.html">
+                        <i class="bi bi-person"></i>
+                        Profil
+                    </a>
+                </li>
+
+                <li>
+                    <a href="notifications.html">
+                        <i class="bi bi-bell"></i>
+                        Notifications
+                        <span class="badge bg-danger ms-auto">
+                            3
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+            <div class="sidebar-footer">
+                <!-- Profil utilisateur -->
+                <div class="user-box">
+
+                    <div class="avatar">
+                        US
+                    </div>
+
+                    <div class="user-info">
+                        <h6>Utilisateur</h6>
+                        <small>Étudiant en {filière}</small>
+                    </div>
+
+                </div>
+                <a href="settings.html" class="set">
+                    
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        Paramètres
+
+                    
+                </a>
+                <a href="#" class="logout-btn">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Déconnexion
+
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <main class="main-content">
+
+                <!-- En-tête -->
+                <section class="entete-correspondances">
+
+                    <h1>
+                        <i class="bi bi-people-fill"></i>
+                        Mes Correspondances
+                    </h1>
+
+                    <p>
+                        Retrouvez les mentors et étudiants compatibles avec votre profil.
+                    </p>
+
+                </section>
+
+                <!-- Statistiques -->
+                <section class="statistiques-correspondances">
+
+                    <div class="carte-stat">
+                        <h2>0</h2>
+                        <p>Correspondances actives</p>
+                    </div>
+
+                    <div class="carte-stat">
+                        <h2>0</h2>
+                        <p>Mentors</p>
+                    </div>
+
+                    <div class="carte-stat">
+                        <h2>0</h2>
+                        <p>Mentorés</p>
+                    </div>
+
+                    <div class="carte-stat">
+                        <h2>0</h2>
+                        <p>Demandes en attente</p>
+                    </div>
+
+                </section>
+
+                <!-- Bandeau explicatif -->
+                <section class="bandeau-matching">
+
+                    <div class="icone-matching">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Comment fonctionne le matching ?
+                        </h3>
+
+                        <p>
+                            Les correspondances sont générées à partir des matières,
+                            compétences, disponibilités et objectifs renseignés dans votre profil.
+                        </p>
+
+                    </div>
+
+                </section>
+
+                <!-- Résultats -->
+                <section class="section-resultats">
+
+                    <h2>
+                        Résultats de Matching
+                    </h2>
+
+                    <div class="grille-correspondances">
+
+                        <!-- Carte Exemple -->
+
+                        <div class="carte-correspondance">
+
+                            <div class="score-compatibilite">
+
+                                <span>95%</span>
+
+                                <small>Compatibilité</small>
+
+                            </div>
+
+                            <div class="contenu-correspondance">
+
+                                <div class="profil-match">
+
+                                    <div class="avatar-correspondance">
+                                        AK
+                                    </div>
+
+                                    <div>
+
+                                        <h4>
+                                            Amine Kedri
+                                        </h4>
+
+                                        <p>
+                                            Mentor Intelligence Artificielle
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="section-tags">
+
+                                    <h6>
+                                        Compétences en commun
+                                    </h6>
+
+                                    <div class="tags">
+
+                                        <span>Python</span>
+
+                                        <span>Machine Learning</span>
+
+                                        <span>Deep Learning</span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="section-disponibilites">
+
+                                    <h6>
+                                        Disponibilités communes
+                                    </h6>
+
+                                    <p>
+                                        Mardi 18h - 20h • Samedi 14h - 17h
+                                    </p>
+
+                                </div>
+
+                                <div class="actions-correspondance">
+
+                                    <button class="btn btn-primary">
+                                        <a href="messages.html">
+                                            <i class="bi bi-chat-dots"></i>
+                                            Discuter
+                                        </a>
+                                    </button>
+
+
+                                    <button class="btn btn-light">
+                                        <a href="#">
+                                            Profil
+                                        </a>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- Etat vide -->
+
+                <!-- <section class="etat-vide-correspondances">
+
+                    <div class="carte-vide">
+
+                        <i class="bi bi-person-x"></i>
+
+                        <h3>
+                            Aucune correspondance disponible
+                        </h3>
+
+                        <p>
+                            Répondez à une offre ou publiez une demande afin d'obtenir vos premiers matchs.
+                        </p>
+
+                        <a href="Offres&Demandes.html" class="btn btn-primary">
+
+                            Explorer les offres
+
+                        </a>
+
+                    </div>
+
+                </section> -->
+
+            </main>
+        </main>
+    </div>
+</body>
+
+</html>
