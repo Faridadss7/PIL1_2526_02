@@ -6,7 +6,6 @@ from .models import Utilisateur, Competence, PointsForts, PointsFaibles, Disponi
 from .forms import RegisterForm, LoginForm, EditProfileForm
 from datetime import datetime
 
-# Décorateur personnalisé pour simuler @login_required avec notre gestion de session
 def login_required_custom(view_func):
     def _wrapped_view(request, *args, **kwargs):
         if 'user_id' not in request.session:
@@ -91,7 +90,7 @@ def upload_photo(request):
         user = Utilisateur.objects.get(id=request.session['user_id'])
         photo = request.FILES['photo']
         
-        # Validation d'extension
+        # Extension valide                            
         allowed_extensions = ['.png', '.jpg', '.jpeg', '.gif']
         import os
         ext = os.path.splitext(photo.name)[1].lower()
@@ -117,7 +116,7 @@ def add_competence(request):
         niveau = request.POST['niveau_competence']
         type_competence = request.POST['type'] # 'fort' ou 'faible'
 
-        # Récupère ou crée la compétence globale selon ton schéma SQL strict
+        # Récupère ou crée la compétence globale 
         competence, created = Competence.objects.get_or_create(
             nom=nom_competence,
             defaults={'niveau': niveau}
