@@ -1,4 +1,6 @@
+
 // Fonction qui vérifie quels éléments doivent apparaître
+
 function revealElements(){
 
     // Sélectionne tous les éléments ayant la classe "reveal"
@@ -60,45 +62,3 @@ function revealElements(){
      });
 
 });
-
-
-// Sélectionne tous les éléments qui possèdent la classe counter
-const counters = document.querySelectorAll(".counter");
-
-// Parcourt chaque compteur
-counters.forEach(counter => {
-
-    // Valeur finale à atteindre
-    const target = +counter.getAttribute("data-target");
-
-    // Fonction d'animation
-    const updateCounter = () => {
-
-        // Valeur actuelle affichée
-        const current = +counter.innerText;
-
-        // Incrément
-        const increment = target / 100;
-
-        // Tant qu'on n'a pas atteint la valeur finale
-        if(current < target){
-
-            // Augmente progressivement
-            counter.innerText = Math.ceil(current + increment);
-
-            // Relance l'animation
-            setTimeout(updateCounter, 20);
-
-        } else {
-
-            // Affiche la valeur finale exacte
-            counter.innerText = target;
-
-        }
-
-    };
-
-    updateCounter();
-
-});
-
