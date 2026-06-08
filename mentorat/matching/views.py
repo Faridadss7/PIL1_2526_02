@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Utilisateur, PointFaible, PointFort, Disponibilite, Matching, OffreMentorat, Conversation
+from .models import Utilisateurs, PointFaibles, PointForts, Disponibilites, Matching, OffresMentorat, Conversation
 
 #  Afficher le formulaire de recherche
 def recherche_mentor(request):
@@ -16,7 +16,7 @@ def calculer_matching(request):
 
     # Chercher les mentors dont les points forts correspondent
     mentors_potentiels = Utilisateur.objects.filter(
-        pointfort__competence_id__in=points_faibles
+        pointsforts__competences_id__in=points_faibles
     ).exclude(id=utilisateur_id).distinct()
 
     resultats = []
@@ -70,7 +70,7 @@ def publier_offre(request):
         utilisateur_id = request.session.get('utilisateur_id')
         utilisateur = get_object_or_404(Utilisateur, id=utilisateur_id)
         OffreMentorat.objects.create(
-            utilisateur=utilisateur,
+            utilisateurs=utilisateur,
             type=request.POST.get('type'),
             competence_id=request.POST.get('competence_id'),
             format=request.POST.get('format'),
@@ -85,7 +85,7 @@ def repondre_offre(request, offre_id):
     utilisateur_id = request.session.get('utilisateur_id')
     offre = get_object_or_404(OffreMentorat, id=offre_id)
     Matching.objects.create(
-        mentor=offre.utilisateur,
+        mentor=offre.utilisateurs,
         mentore_id=utilisateur_id,
         statut='en_attente'
     )
