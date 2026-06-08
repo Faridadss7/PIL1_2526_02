@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,447 +8,177 @@
     <title>IFRI MentorLink</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="pages/styles.css">
-    <script src="assets/js/main.js"></script>
+    <link rel="stylesheet" href="{% static 'pages/styles.css' %}">
+    
+    <script src="{% static 'assets/js/main.js' %}"></script>
 </head>
 
 <body>
     <header id="Haut">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
-
                 <a class="navbar-brand fw-bold text-dark" href="#">
                     <i class="bi bi-mortarboard-fill fs-1 text-primary"></i> IFRI MentorLink
                 </a>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-
                     <span class="navbar-toggler-icon"></span>
-
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarContent">
-
                     <ul class="navbar-nav mx-auto">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Accueil</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Mentors</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#how-it-works">Comment ça marche</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">À propos</a>
-                        </li>
-
+                        <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Mentors</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#how-it-works">Comment ça marche</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
                     </ul>
-
                     <div>
-                        <a href="pages/login.html" class="btn btn-outline-primary me-2 page-transition">
-                            Connexion
-                        </a>
-
-                        <a href="pages/register.html" class="btn btn-primary">
-                            Commencer
-                        </a>
+                        <a href="/accounts/connexion/" class="btn btn-outline-primary me-2">Connexion</a>
+                        <a href="/accounts/inscription/" class="btn btn-primary">Commencer</a>
                     </div>
-
                 </div>
-
             </div>
         </nav>
     </header>
+
     <main>
         <section class="hero">
-
             <div class="container text-center">
-
-                <h1 class="display-3 fw-bold">
-                    Connectez, Apprenez, Progressez
-                </h1>
-
-                <p class="lead mt-4">
-                    Trouvez le mentor idéal pour accélérer votre réussite
-                    académique et professionnelle à l'IFRI.
-                </p>
-
-
+                <h1 class="display-3 fw-bold">Connectez, Apprenez, Progressez</h1>
+                <p class="lead mt-4">Trouvez le mentor idéal pour accélérer votre réussite académique et professionnelle à l'IFRI.</p>
             </div>
-
         </section>
+
         <section id="how-it-works" class="py-5 reveal">
-
             <div class="container">
-
                 <div class="text-center mb-5">
-
-                    <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
-                        Processus simple
-                    </span>
-
-                    <h2 class="fw-bold display-5">
-                        Comment ça marche ?
-                    </h2>
-
-                    <p class="text-muted fs-5">
-                        Trois étapes simples pour trouver le mentor idéal
-                        et accélérer votre progression.
-                    </p>
-
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">Processus simple</span>
+                    <h2 class="fw-bold display-5">Comment ça marche ?</h2>
+                    <p class="text-muted fs-5">Trois étapes simples pour trouver le mentor idéal et accélérer votre progression.</p>
                 </div>
-
                 <div class="row g-4">
-
-                    <!-- Etape 1 -->
                     <div class="col-lg-4">
-
                         <div class="card how-card h-100 border-0">
-
-                            <div class="step-number">
-                                01
-                            </div>
-
-                            <div class="icon-wrapper">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-
-                            <h4 class="fw-bold mt-4">
-                                Créez votre profil
-                            </h4>
-
-                            <p class="text-muted">
-                                Renseignez votre filière, vos compétences,
-                                vos objectifs et vos disponibilités.
-                            </p>
-
+                            <div class="step-number">01</div>
+                            <div class="icon-wrapper"><i class="bi bi-person-circle"></i></div>
+                            <h4 class="fw-bold mt-4">Créez votre profil</h4>
+                            <p class="text-muted">Renseignez votre filière, vos compétences, vos objectifs et vos disponibilités.</p>
                         </div>
-
                     </div>
-
-                    <!-- Etape 2 -->
                     <div class="col-lg-4">
-
                         <div class="card how-card h-100 border-0">
-
-                            <div class="step-number">
-                                02
-                            </div>
-
-                            <div class="icon-wrapper">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-
-                            <h4 class="fw-bold mt-4">
-                                Trouvez votre mentor
-                            </h4>
-
-                            <p class="text-muted">
-                                Notre algorithme identifie les profils
-                                les plus compatibles avec vos besoins.
-                            </p>
-
+                            <div class="step-number">02</div>
+                            <div class="icon-wrapper"><i class="bi bi-people-fill"></i></div>
+                            <h4 class="fw-bold mt-4">Trouvez votre mentor</h4>
+                            <p class="text-muted">Notre algorithme identifie les profils les plus compatibles avec vos besoins.</p>
                         </div>
-
                     </div>
-
-                    <!-- Etape 3 -->
                     <div class="col-lg-4">
-
                         <div class="card how-card h-100 border-0">
-
-                            <div class="step-number">
-                                03
-                            </div>
-
-                            <div class="icon-wrapper">
-                                <i class="bi bi-rocket-takeoff-fill"></i>
-                            </div>
-
-                            <h4 class="fw-bold mt-4">
-                                Progressez rapidement
-                            </h4>
-
-                            <p class="text-muted">
-                                Organisez des sessions, échangez
-                                et développez vos compétences.
-                            </p>
-
+                            <div class="step-number">03</div>
+                            <div class="icon-wrapper"><i class="bi bi-rocket-takeoff-fill"></i></div>
+                            <h4 class="fw-bold mt-4">Progressez rapidement</h4>
+                            <p class="text-muted">Organisez des sessions, échangez et développez vos compétences.</p>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
+
         <section id="features" class="py-5 bg-light reveal">
-
             <div class="container">
-
                 <div class="text-center mb-5">
-
-                    <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
-                        Nos avantages
-                    </span>
-
-                    <h2 class="display-5 fw-bold">
-                        Pourquoi choisir IFRI MentorLink ?
-                    </h2>
-
-                    <p class="text-muted fs-5">
-                        Une plateforme conçue pour accompagner les étudiants
-                        dans leur développement académique et professionnel.
-                    </p>
-
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">Nos avantages</span>
+                    <h2 class="display-5 fw-bold">Pourquoi choisir IFRI MentorLink ?</h2>
+                    <p class="text-muted fs-5">Une plateforme conçue pour accompagner les étudiants dans leur développement académique et professionnel.</p>
                 </div>
-
                 <div class="row g-4">
-
-                    <!-- Carte 1 -->
                     <div class="col-md-6 col-lg-3">
-
                         <div class="feature-card reveal">
-
-                            <div class="feature-icon">
-                                <i class="bi bi-bullseye"></i>
-                            </div>
-
+                            <div class="feature-icon"><i class="bi bi-bullseye"></i></div>
                             <h5>Matching Intelligent</h5>
-
-                            <p>
-                                Notre algorithme vous associe avec des mentors
-                                en fonction de vos objectifs, compétences et spécialisation.
-                            </p>
-
+                            <p>Notre algorithme vous associe avec des mentors en fonction de vos objectifs, compétences et spécialisation.</p>
                         </div>
-
                     </div>
-
-                    <!-- Carte 2 -->
                     <div class="col-md-6 col-lg-3">
-
                         <div class="feature-card reveal">
-
-                            <div class="feature-icon">
-                                <i class="bi bi-book-half"></i>
-                            </div>
-
+                            <div class="feature-icon"><i class="bi bi-book-half"></i></div>
                             <h5>Développez vos compétences</h5>
-
-                            <p>
-                                Apprenez auprès d'étudiants
-                                expérimentés et passionnés.
-                            </p>
-
+                            <p>Apprenez auprès d'étudiants expérimentés et passionnés.</p>
                         </div>
-
                     </div>
-
-                    <!-- Carte 3 -->
                     <div class="col-md-6 col-lg-3">
-
                         <div class="feature-card reveal">
-
-                            <div class="feature-icon">
-                                <i class="bi bi-diagram-3-fill"></i>
-                            </div>
-
+                            <div class="feature-icon"><i class="bi bi-diagram-3-fill"></i></div>
                             <h5>Réseau professionnel</h5>
-
-                            <p>
-                                Élargissez votre réseau et créez
-                                des opportunités de collaboration.
-                            </p>
-
+                            <p>Élargissez votre réseau et créez des opportunités de collaboration.</p>
                         </div>
-
                     </div>
-
-                    <!-- Carte 4 -->
                     <div class="col-md-6 col-lg-3">
-
                         <div class="feature-card reveal">
-
-                            <div class="feature-icon">
-                                <i class="bi bi-calendar-check-fill"></i>
-                            </div>
-
+                            <div class="feature-icon"><i class="bi bi-calendar-check-fill"></i></div>
                             <h5>Planification flexible</h5>
-
-                            <p>
-                                Organisez vos sessions selon
-                                votre disponibilité.
-                            </p>
-
+                            <p>Organisez vos sessions selon votre disponibilité.</p>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-        <!-- SECTION D'APPEL À L'ACTION (CTA) -->
-        <!-- Cette section sert à encourager l'utilisateur à créer un compte -->
+
         <section class="cta-section py-5 reveal">
-
-            <!-- Container Bootstrap : centre le contenu et limite sa largeur -->
             <div class="container">
-
-                <!-- Boîte principale du CTA -->
-                <!-- text-center : centre tous les textes horizontalement -->
                 <div class="cta-box text-center">
-
-                    <!-- Petit badge en haut -->
-                    <!-- bg-light : fond clair -->
-                    <!-- text-primary : texte bleu Bootstrap -->
-                    <!-- px-3 py-2 : espace intérieur -->
-                    <span class="badge bg-light text-primary px-3 py-2 mb-3">
-                        Rejoignez-nous
-                    </span>
-
-                    <!-- Titre principal -->
-                    <!-- display-5 : grand texte Bootstrap -->
-                    <!-- fw-bold : texte en gras -->
-                    <!-- mb-3 : marge en bas -->
-                    <h2 class="display-5 fw-bold mb-3">
-                        Prêt à rejoindre la communauté IFRI MentorLink ?
-                    </h2>
-
-                    <!-- Texte descriptif -->
-                    <!-- lead : texte légèrement plus grand -->
-                    <!-- mb-4 : marge en bas -->
-                    <p class="lead mb-4">
-                        Créez votre profil, faites de nouvelles rencontres
-                        et progressez grâce à une communauté engagée.
-                    </p>
-
-                    <!-- Bouton d'inscription -->
-                    <!-- href : redirige vers la page register -->
-                    <!-- btn btn-light : style Bootstrap -->
-                    <!-- btn-lg : grand bouton -->
-                    <!-- px-5 py-3 : espace intérieur -->
-                    <!-- fw-semibold : texte semi-gras -->
-                    <a href="pages/register.html" class="btn btn-light btn-lg px-5 py-3 fw-semibold">
-
-                        <!-- Icône Bootstrap -->
-                        <!-- me-2 : marge à droite de l'icône -->
-                        <i class="bi bi-person-plus-fill me-2"></i>
-
-                        Créer un compte gratuitement
-
+                    <span class="badge bg-light text-primary px-3 py-2 mb-3">Rejoignez-nous</span>
+                    <h2 class="display-5 fw-bold mb-3">Prêt à rejoindre la communauté IFRI MentorLink ?</h2>
+                    <p class="lead mb-4">Créez votre profil, faites de nouvelles rencontres et progressez grâce à une communauté engagée.</p>
+                    <a href="/accounts/inscription/" class="btn btn-light btn-lg px-5 py-3 fw-semibold">
+                        <i class="bi bi-person-plus-fill me-2"></i>Créer un compte gratuitement
                     </a>
-
                 </div>
-
             </div>
-
         </section>
     </main>
-    <footer class="reveal">
-        <!-- FOOTER -->
-        <footer class="footer reveal">
 
-            <div class="container">
-
-                <div class="row gy-4">
-
-                    <!-- Logo + Description -->
-                    <div class="col-lg-3">
-
-                        <h4 class="footer-logo">
-                            <i class="bi bi-mortarboard"></i>
-                            IFRI MentorLink
-                        </h4>
-
-                        <p>
-                            Autonomiser les étudiants grâce au mentorat et au partage de connaissances
-                        </p>
-
-                    </div>
-
-                    <!-- Plateforme -->
-                    <div class="col-lg-3">
-
-                        <h5>Plateforme</h5>
-
-                        <ul class="footer-links">
-                            <li><a href="#Haut">Accueil</a></li>
-                            <li><a href="#how-it-works">Comment ça marche ?</a></li>
-
-                            <li><a href="#">Trouver des Mentors</a></li>
-
-                            <li><a href="#">Devenir Mentor</a></li>
-
-                            <li><a href="#">Tableau de Bord</a></li>
-
-                        </ul>
-
-                    </div>
-
-                    <!-- Filières -->
-                    <div class="col-lg-3">
-
-                        <h5>Filières</h5>
-
-                        <ul class="footer-links">
-
-                            <li>Intelligence Artificielle</li>
-
-                            <li>Génie Logiciel</li>
-
-                            <li>Sécurité Informatique</li>
-
-                            <li>IoT & Systèmes Embarqués</li>
-
-                            <li>Internet et Multimédia</li>
-
-                        </ul>
-
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="col-lg-3">
-
-                        <h5>Contact</h5>
-
-                        <ul class="footer-links">
-
-                            <li><a href="https://ifri-uac.bj">IFRI UAC</a></li>
-
-                            <li>+229 01 XX XX XX XX</li>
-
-                            <li>Université d'Abomey-Calavi</li>
-                            <li><a href="#">GitHub</a></li>
-                        </ul>
-
-                    </div>
-
+    <footer class="footer reveal">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-3">
+                    <h4 class="footer-logo"><i class="bi bi-mortarboard"></i> IFRI MentorLink</h4>
+                    <p>Autonomiser les étudiants grâce au mentorat et au partage de connaissances</p>
                 </div>
-
-                <!-- Ligne de séparation -->
-                <hr class="footer-divider">
-
-                <!-- Copyright -->
-                <div class="text-center">
-
-                    <p class="copyright">
-                        © 2026 IFRI MentorLink. Tous droits réservés.
-                    </p>
-
+                <div class="col-lg-3">
+                    <h5>Plateforme</h5>
+                    <ul class="footer-links">
+                        <li><a href="#Haut">Accueil</a></li>
+                        <li><a href="#how-it-works">Comment ça marche ?</a></li>
+                        <li><a href="#">Trouver des Mentors</a></li>
+                        <li><a href="#">Devenir Mentor</a></li>
+                        <li><a href="#">Tableau de Bord</a></li>
+                    </ul>
                 </div>
-
+                <div class="col-lg-3">
+                    <h5>Filières</h5>
+                    <ul class="footer-links">
+                        <li>Intelligence Artificielle</li>
+                        <li>Génie Logiciel</li>
+                        <li>Sécurité Informatique</li>
+                        <li>IoT & Systèmes Embarqués</li>
+                        <li>Internet et Multimédia</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Contact</h5>
+                    <ul class="footer-links">
+                        <li><a href="https://ifri-uac.bj">IFRI UAC</a></li>
+                        <li>+229 01 XX XX XX XX</li>
+                        <li>Université d'Abomey-Calavi</li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
             </div>
-
-        </footer>
+            <hr class="footer-divider">
+            <div class="text-center">
+                <p class="copyright">© 2026 IFRI MentorLink. Tous droits réservés.</p>
+            </div>
+        </div>
     </footer>
 </body>
-
 </html>
