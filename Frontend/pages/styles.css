@@ -466,6 +466,10 @@ body {
     margin-bottom:20px;
 
 }
+.last{
+    text-decoration: none;
+    color: white;
+}
 .logout-btn {
 
     display: flex;
