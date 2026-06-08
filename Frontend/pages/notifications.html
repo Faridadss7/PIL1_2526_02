@@ -1,13 +1,16 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="notif.js"></script>
+    <link rel="stylesheet" href="{% static 'pages/styles.css' %}">
+    <script src="{% static 'js/main.js' %}"></script>
     <title>IFRI MentorLink</title>
 </head>
 
@@ -28,49 +31,49 @@
             <ul class="menu list-unstyled">
 
                 <li>
-                    <a href="dashboard.html">
+                    <a href="{% url 'profil' %}">
                         <i class="bi bi-grid"></i>
                         Tableau de Bord
                     </a>
                 </li>
 
                 <li>
-                    <a href="Offres&Demandes.html">
+                    <a href="{% url 'offres_demandes' %}">
                         <i class="bi bi-card-checklist"></i>
                         Offres & Demandes
                     </a>
                 </li>
 
                 <li>
-                    <a href="matchings.html">
+                    <a href="{% url 'matchings' %}">
                         <i class="bi bi-people"></i>
                         Correspondances
                     </a>
                 </li>
 
                 <li>
-                    <a href="messages.html">
+                    <a href="{% url 'messages' %}">
                         <i class="bi bi-chat-dots"></i>
                         Messages
                     </a>
                 </li>
 
                 <li>
-                    <a href="sessions.html">
+                    <a href="{% url 'sessions' %}">
                         <i class="bi bi-calendar-event"></i>
                         Sessions
                     </a>
                 </li>
 
                 <li>
-                    <a href="profile.html">
+                    <a href="{% url 'profil' %}">
                         <i class="bi bi-person"></i>
                         Profil
                     </a>
                 </li>
 
                 <li class="active">
-                    <a href="notifications.html">
+                    <a href="{% url 'notifications' %}">
                         <i class="bi bi-bell"></i>
                         Notifications
                         <span id="badgeNotifications" class="badge bg-danger ms-2">
@@ -96,7 +99,7 @@
                     </div>
 
                 </div>
-                <a href="settings.html" class="set">
+                <a href="{% url 'settings' %}" class="set">
                     
 
                         <i class="bi bi-gear-fill"></i>
@@ -159,7 +162,7 @@
                     </div>
 
                     <div class="contenu-notification">
-                        <a class="none-blue" href="messages.html">
+                        <a class="none-blue" href="{% url 'messages' %}">
                             <h5>
                                 Nouveau message reçu
                             </h5>
@@ -187,7 +190,7 @@
                     </div>
 
                     <div class="contenu-notification">
-                        <a class="none-blue" href="sessions.html">
+                        <a class="none-blue" href="{% url 'sessions' %}">
 
                             <h5>
                                 Nouvelle session programmée
@@ -245,7 +248,7 @@
                     </div>
 
                     <div class="contenu-notification">
-                        <a class="none-blue" href="matchings.html">
+                        <a class="none-blue" href="{% url 'matchings' %}">
 
                             <h5>
                                 Nouvelle recommandation
@@ -274,7 +277,7 @@
                     </div>
 
                     <div class="contenu-notification">
-                        <a class="none-blue" href="sessions.html">
+                        <a class="none-blue" href="{% url 'sessions' %}">
 
                             <h5>
                                 Session annulée
