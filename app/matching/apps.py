@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class MessagerieConfig(AppConfig):
-    name = 'app.messagerie'
+class MatchingConfig(AppConfig):
+    name = 'app.matching'

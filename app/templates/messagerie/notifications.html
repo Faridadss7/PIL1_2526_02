@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <script src="{% static 'js/notif.js' %}" defer></script>
+    <title>IFRI MentorLink - Notifications</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>IFRI MentorLink</span>
+            </div>
+            <ul class="menu list-unstyled">
+                <li><a href="{% url 'dashboard' %}"><i class="bi bi-grid"></i> Tableau de Bord</a></li>
+                <li><a href="{% url 'offres_demandes' %}"><i class="bi bi-card-checklist"></i> Offres & Demandes</a></li>
+                <li><a href="{% url 'matchings' %}"><i class="bi bi-people"></i> Correspondances</a></li>
+                <li><a href="{% url 'messages' %}"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li><a href="{% url 'sessions' %}"><i class="bi bi-calendar-event"></i> Sessions</a></li>
+                <li><a href="{% url 'profil' %}"><i class="bi bi-person"></i> Profil</a></li>
+                <li class="active">
+                    <a href="{% url 'notifications' %}">
+                        <i class="bi bi-bell"></i> Notifications
+                        {% if messages_non_lus %}
+                        <span id="badgeNotifications" class="badge bg-danger ms-2">{{ messages_non_lus.count }}</span>
+                        {% else %}
+                        <span id="badgeNotifications" class="badge bg-danger ms-2 d-none">0</span>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-box">
+                    <div class="avatar">{{ user.prenom|first|upper }}{{ user.nom|first|upper }}</div>
+                    <div class="user-info">
+                        <h6>{{ user.prenom }} {{ user.nom }}</h6>
+                        <small>{{ user.niveau }} • {{ user.filiere }}</small>
+                    </div>
+                </div>
+                <a href="{% url 'settings' %}" class="set"><i class="bi bi-gear-fill"></i> Paramètres</a>
+                <a href="{% url 'deconnexion' %}" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Déconnexion</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="entete-notifications">
+                <h1><i class="bi bi-bell-fill"></i> Notifications</h1>
+                <p>Retrouvez ici toutes les activités importantes liées à votre mentorat.</p>
+            </section>
+
+            <section class="actions-notifications">
+                {% if messages_non_lus %}
+                <form method="POST" action="{% url 'marquer_tout_lu' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" id="btnToutLu">
+                        <i class="bi bi-check2-all me-2"></i>Tout marquer comme lu
+                    </button>
+                </form>
+                {% endif %}
+            </section>
+
+            <section class="liste-notifications">
+                {% if messages_non_lus %}
+                    {% for msg in messages_non_lus %}
+                    <a href="{% url 'chat' msg.conversations_id %}" class="carte-notification non-lue text-decoration-none text-dark d-flex">
+                        <div class="icone-notification"><i class="bi bi-chat-dots-fill"></i></div>
+                        <div class="contenu-notification">
+                            <h5>Nouveau message de {{ msg.expediteur.prenom }} {{ msg.expediteur.nom }}</h5>
+                            <p>{{ msg.contenu|truncatechars:80 }}</p>
+                            <small>il y a {{ msg.date_envoi|timesince }}</small>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-bell-slash fs-1"></i>
+                        <h4 class="mt-3">Aucune notification</h4>
+                        <p>Vous êtes à jour !</p>
+                    </div>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

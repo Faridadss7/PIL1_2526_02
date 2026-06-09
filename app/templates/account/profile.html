@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <title>IFRI MentorLink - Profil</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>IFRI MentorLink</span>
+            </div>
+            <ul class="menu list-unstyled">
+                <li><a href="{% url 'dashboard' %}"><i class="bi bi-grid"></i> Tableau de Bord</a></li>
+                <li><a href="{% url 'offres_demandes' %}"><i class="bi bi-card-checklist"></i> Offres & Demandes</a></li>
+                <li><a href="{% url 'matchings' %}"><i class="bi bi-people"></i> Correspondances</a></li>
+                <li><a href="{% url 'messages' %}"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li><a href="{% url 'sessions' %}"><i class="bi bi-calendar-event"></i> Sessions</a></li>
+                <li class="active"><a href="{% url 'profil' %}"><i class="bi bi-person"></i> Profil</a></li>
+                <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-box">
+                    <div class="avatar">{{ user.prenom|first|upper }}{{ user.nom|first|upper }}</div>
+                    <div class="user-info">
+                        <h6>{{ user.prenom }} {{ user.nom }}</h6>
+                        <small>Étudiant en {{ user.filiere }}</small>
+                    </div>
+                </div>
+                <a href="{% url 'settings' %}" class="set"><i class="bi bi-gear-fill"></i> Paramètres</a>
+                <a href="{% url 'deconnexion' %}" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Déconnexion</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% if schema_missing %}
+            <div class="alert alert-warning">
+                <strong>Base métier non initialisée.</strong>
+                Ouvrez un terminal à la racine du projet et exécutez :
+                <code class="d-block mt-2">py manage.py setup_metier</code>
+                Puis reconnectez-vous.
+            </div>
+            {% endif %}
+
+            <section class="profile-page">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        {% if user.photo %}
+                        <img src="{{ user.photo.url }}" alt="Photo de profil" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">
+                        {% else %}
+                        <i class="bi bi-person-fill"></i>
+                        {% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <h2>{{ user.prenom }} {{ user.nom }}</h2>
+                        <p>{{ user.niveau }} • {{ user.filiere }}</p>
+                    </div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="bi bi-pencil-square"></i> Modifier le profil
+                    </button>
+                </div>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4><i class="bi bi-award-fill"></i> Compétences maîtrisées</h4>
+                            <div class="tags">
+                                {% if points_forts %}
+                                    {% for pf in points_forts %}
+                                    <span class="tag">{{ pf.competences.nom }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                <span class="tag">Vos compétences apparaîtront ici.</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4><i class="bi bi-lightbulb-fill"></i> Besoin d'aide sur</h4>
+                            <div class="tags">
+                                {% if points_faibles %}
+                                    {% for pf in points_faibles %}
+                                    <span class="tag danger">{{ pf.competences.nom }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                <span class="tag danger">Vos lacunes apparaîtront ici.</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4><i class="bi bi-calendar-week"></i> Disponibilités</h4>
+                            <ul class="availability-list">
+                                {% if disponibilites %}
+                                    {% for d in disponibilites %}
+                                    <li>{{ d.jour }} • {{ d.heure_debut }} - {{ d.heure_fin }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                <li>Aucune disponibilité renseignée.</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4><i class="bi bi-person-lines-fill"></i> À propos</h4>
+                            <p>{{ user.bio|default:"Votre bio apparaîtra ici." }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card mt-4">
+                    <h4><i class="bi bi-stars"></i> Centres d'intérêt</h4>
+                    <div class="tags">
+                        <span class="tag">{{ user.centre_interet|default:"Aucun centre d'intérêt mentionné." }}</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal Modification du Profil -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="bi bi-person-gear me-2"></i>Modifier mon profil</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="profileForm" method="POST" enctype="multipart/form-data" action="{% url 'profil' %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" name="nom" class="form-control" value="{{ user.nom }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Prénom</label>
+                                    <input type="text" name="prenom" class="form-control" value="{{ user.prenom }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Filière</label>
+                                    <input type="text" name="filiere" class="form-control" value="{{ user.filiere }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Niveau d'étude</label>
+                                    <select name="niveau" id="profilNiveau" class="form-select" onchange="afficherCompetencesProfil()">
+                                        <option {% if user.niveau == 'L1' %}selected{% endif %} value="L1">Licence 1</option>
+                                        <option {% if user.niveau == 'L2' %}selected{% endif %} value="L2">Licence 2</option>
+                                        <option {% if user.niveau == 'L3' %}selected{% endif %} value="L3">Licence 3</option>
+                                        <option {% if user.niveau == 'M1' %}selected{% endif %} value="M1">Master 1</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Photo de profil</label>
+                                    <input type="file" name="photo" class="form-control" accept="image/*">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Bio / Informations supplémentaires</label>
+                                    <textarea name="bio" class="form-control" rows="4" placeholder="Parlez un peu de vous...">{{ user.bio }}</textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Centres d'intérêt</label>
+                                    <textarea name="centre_interet" class="form-control" rows="2" placeholder="Ex : IA, cybersécurité, entrepreneuriat...">{{ user.centre_interet }}</textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Compétences maîtrisées</label>
+                                    <div id="liste-points-forts" class="border rounded p-2" style="max-height:160px;overflow-y:auto;">
+                                        <p class="text-muted small mb-0">Chargement...</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Besoin d'aide sur (lacunes)</label>
+                                    <div id="liste-points-faibles" class="border rounded p-2" style="max-height:160px;overflow-y:auto;">
+                                        <p class="text-muted small mb-0">Chargement...</p>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Disponibilités</label>
+                                    <div id="dispoRows">
+                                        {% for d in disponibilites %}
+                                        <div class="row g-2 mb-2 dispo-row">
+                                            <div class="col-md-4">
+                                                <select name="dispo_jour" class="form-select form-select-sm">
+                                                    <option value="Lundi" {% if d.jour == "Lundi" %}selected{% endif %}>Lundi</option>
+                                                    <option value="Mardi" {% if d.jour == "Mardi" %}selected{% endif %}>Mardi</option>
+                                                    <option value="Mercredi" {% if d.jour == "Mercredi" %}selected{% endif %}>Mercredi</option>
+                                                    <option value="Jeudi" {% if d.jour == "Jeudi" %}selected{% endif %}>Jeudi</option>
+                                                    <option value="Vendredi" {% if d.jour == "Vendredi" %}selected{% endif %}>Vendredi</option>
+                                                    <option value="Samedi" {% if d.jour == "Samedi" %}selected{% endif %}>Samedi</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" name="dispo_debut" class="form-control form-control-sm"
+                                                       value="{{ d.heure_debut|time:'H:i' }}">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" name="dispo_fin" class="form-control form-control-sm"
+                                                       value="{{ d.heure_fin|time:'H:i' }}">
+                                            </div>
+                                        </div>
+                                        {% empty %}
+                                        <div class="row g-2 mb-2 dispo-row">
+                                            <div class="col-md-4">
+                                                <select name="dispo_jour" class="form-select form-select-sm">
+                                                    <option value="Lundi">Lundi</option>
+                                                    <option value="Mardi">Mardi</option>
+                                                    <option value="Mercredi">Mercredi</option>
+                                                    <option value="Jeudi">Jeudi</option>
+                                                    <option value="Vendredi">Vendredi</option>
+                                                    <option value="Samedi">Samedi</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" name="dispo_debut" class="form-control form-control-sm">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" name="dispo_fin" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="addDispoRow">
+                                        <i class="bi bi-plus"></i> Ajouter un créneau
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const competencesParNiveau = {{ competences_par_niveau_json|safe }};
+    const pfSelectionnes = new Set({{ pf_selectionnes_json|safe }});
+    const pfaSelectionnes = new Set({{ pfa_selectionnes_json|safe }});
+
+    function afficherCompetencesProfil() {
+        const niveau = document.getElementById('profilNiveau').value;
+        const competences = competencesParNiveau[niveau] || [];
+        const listeForts = document.getElementById('liste-points-forts');
+        const listeFaibles = document.getElementById('liste-points-faibles');
+
+        if (competences.length === 0) {
+            listeForts.innerHTML = '<p class="text-muted small mb-0">Aucune compétence en base pour ce niveau. Chargez database/schema.sql.</p>';
+            listeFaibles.innerHTML = listeForts.innerHTML;
+            return;
+        }
+
+        let htmlForts = '';
+        let htmlFaibles = '';
+        competences.forEach((comp, i) => {
+            const checkedFort = pfSelectionnes.has(comp) ? 'checked' : '';
+            const checkedFaible = pfaSelectionnes.has(comp) ? 'checked' : '';
+            htmlForts += `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="points_forts" value="${comp.replace(/"/g, '&quot;')}" id="pf_${i}" ${checkedFort}>
+                    <label class="form-check-label" for="pf_${i}">${comp}</label>
+                </div>`;
+            htmlFaibles += `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="points_faibles" value="${comp.replace(/"/g, '&quot;')}" id="pfa_${i}" ${checkedFaible}>
+                    <label class="form-check-label" for="pfa_${i}">${comp}</label>
+                </div>`;
+        });
+        listeForts.innerHTML = htmlForts;
+        listeFaibles.innerHTML = htmlFaibles;
+    }
+
+    document.getElementById('editProfileModal')?.addEventListener('shown.bs.modal', afficherCompetencesProfil);
+    document.getElementById('addDispoRow')?.addEventListener('click', function () {
+        const container = document.getElementById('dispoRows');
+        const row = container.querySelector('.dispo-row');
+        if (row) container.appendChild(row.cloneNode(true));
+    });
+    afficherCompetencesProfil();
+    </script>
+</body>
+</html>

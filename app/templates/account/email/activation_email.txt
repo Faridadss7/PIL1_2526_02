@@ -1,0 +1,11 @@
+Bonjour {{ user.prenom }},
+
+Bienvenue sur IFRI MentorLink !
+
+Pour activer votre compte et sécuriser votre inscription, cliquez sur le lien ci-dessous :
+
+{{ activation_link }}
+
+Ce lien est valable 24 heures. Si vous n'avez pas créé de compte, ignorez cet email.
+
+— L'équipe IFRI MentorLink

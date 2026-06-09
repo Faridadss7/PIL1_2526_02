@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <title>IFRI MentorLink - Correspondances</title>
+</head>
+<body>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>IFRI MentorLink</span>
+        </div>
+        <ul class="menu list-unstyled">
+            <li><a href="{% url 'dashboard' %}"><i class="bi bi-grid"></i> Tableau de Bord</a></li>
+            <li><a href="{% url 'offres_demandes' %}"><i class="bi bi-card-checklist"></i> Offres & Demandes</a></li>
+            <li class="active"><a href="{% url 'matchings' %}"><i class="bi bi-people"></i> Correspondances</a></li>
+            <li><a href="{% url 'messages' %}"><i class="bi bi-chat-dots"></i> Messages</a></li>
+            <li><a href="{% url 'sessions' %}"><i class="bi bi-calendar-event"></i> Sessions</a></li>
+            <li><a href="{% url 'profil' %}"><i class="bi bi-person"></i> Profil</a></li>
+            <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-box">
+                <div class="avatar">{{ user.prenom|first|upper }}{{ user.nom|first|upper }}</div>
+                <div class="user-info">
+                    <h6>{{ user.prenom }} {{ user.nom }}</h6>
+                    <small>{{ user.niveau }} • {{ user.filiere }}</small>
+                </div>
+            </div>
+            <a href="{% url 'settings' %}" class="set"><i class="bi bi-gear-fill"></i> Paramètres</a>
+            <a href="{% url 'deconnexion' %}" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Déconnexion</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        {% if messages %}
+        {% for msg in messages %}
+        <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ msg }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <section class="entete-correspondances">
+            <h1><i class="bi bi-people-fill"></i> Mes Correspondances</h1>
+            <p>Trouvez des mentors compatibles avec votre profil ou gérez vos matchings.</p>
+        </section>
+
+        <div class="d-flex gap-2 mb-4">
+            <a href="{% url 'matchings' %}" class="btn btn-sm {% if not vue_matchings %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-search me-1"></i>Trouver un mentor
+            </a>
+            <a href="{% url 'mes_matchings' %}" class="btn btn-sm {% if vue_matchings %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-people me-1"></i>Mes matchings
+            </a>
+        </div>
+
+        {% if vue_matchings %}
+        {# Mode 1 : gestion des matchings #}
+        <section>
+            <h5 class="mb-3"><i class="bi bi-hourglass-split me-2"></i>Demandes en attente</h5>
+            {% if matchings_en_attente %}
+                {% for m in matchings_en_attente %}
+                <div class="carte-correspondance mb-3">
+                    <div class="contenu-correspondance">
+                        <div class="profil-match">
+                            <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
+                            <div>
+                                <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
+                                <p>{{ m.mentore.filiere }} — {{ m.mentore.niveau }}</p>
+                            </div>
+                        </div>
+                        <div class="actions-correspondance mt-2">
+                            <a href="{% url 'accepter' m.id %}" class="btn btn-success btn-sm">
+                                <i class="bi bi-check2 me-1"></i>Accepter
+                            </a>
+                            <a href="{% url 'refuser' m.id %}" class="btn btn-outline-danger btn-sm ms-1">
+                                <i class="bi bi-x me-1"></i>Refuser
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-inbox fs-2"></i>
+                <p class="mt-2">Aucune demande en attente.</p>
+            </div>
+            {% endif %}
+
+            <h5 class="mb-3 mt-4"><i class="bi bi-person-check me-2"></i>Correspondances acceptées</h5>
+            {% if matchings_acceptes %}
+                {% for m in matchings_acceptes %}
+                <div class="carte-correspondance mb-3">
+                    <div class="contenu-correspondance">
+                        <div class="profil-match">
+                            {% if m.mentor_id == user.id %}
+                            <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
+                            <div>
+                                <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
+                                <p>Mentoré — {{ m.mentore.filiere }}</p>
+                            </div>
+                            {% else %}
+                            <div class="avatar-correspondance">{{ m.mentor.prenom|first|upper }}{{ m.mentor.nom|first|upper }}</div>
+                            <div>
+                                <h5>{{ m.mentor.prenom }} {{ m.mentor.nom }}</h5>
+                                <p>Mentor — {{ m.mentor.filiere }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="actions-correspondance mt-2">
+                            <a href="{% url 'messages' %}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-chat-dots me-1"></i>Discuter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-people fs-2"></i>
+                <p class="mt-2">Aucune correspondance acceptée pour le moment.</p>
+            </div>
+            {% endif %}
+        </section>
+
+        {% elif resultats is not None %}
+        {# Mode 2 : résultats du calcul de matching #}
+        {% if message %}
+        <div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>{{ message }}</div>
+        {% endif %}
+
+        {% if resultats %}
+        <div class="grille-correspondances">
+            {% for r in resultats %}
+            <div class="carte-correspondance">
+                <div class="score-compatibilite">
+                    <span>{{ r.score }}%</span>
+                    <small>Compatibilité</small>
+                </div>
+                <div class="contenu-correspondance">
+                    <div class="profil-match">
+                        <div class="avatar-correspondance">{{ r.mentor.prenom|first|upper }}{{ r.mentor.nom|first|upper }}</div>
+                        <div>
+                            <h4>{{ r.mentor.prenom }} {{ r.mentor.nom }}</h4>
+                            <p>{{ r.mentor.filiere }} — {{ r.mentor.niveau }}</p>
+                        </div>
+                    </div>
+                    {% if r.communs %}
+                    <div class="section-tags mt-2">
+                        <h6>Compétences en commun</h6>
+                        <div class="tags">
+                            {% for c in r.communs %}<span class="tag">{{ c }}</span>{% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if r.dispo_communes %}
+                    <div class="mt-2">
+                        <h6>Disponibilités communes</h6>
+                        <p>{% for d in r.dispo_communes %}{{ d }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    </div>
+                    {% endif %}
+                    <div class="actions-correspondance mt-3">
+                        <a href="{% url 'detail_mentor' r.mentor.id %}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-person me-1"></i>Voir profil
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-person-x fs-1"></i>
+            <h4 class="mt-3">Aucun mentor compatible trouvé</h4>
+            <p>Complétez votre profil ou explorez les offres disponibles.</p>
+            <a href="{% url 'offres_demandes' %}" class="btn btn-outline-primary">Explorer les offres</a>
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'matchings' %}" class="btn btn-light">
+                <i class="bi bi-arrow-left me-1"></i>Retour
+            </a>
+        </div>
+
+        {% else %}
+        {# Mode 3 : état initial ou détail mentor #}
+        {% if mentor %}
+        <div class="carte-correspondance">
+            <div class="contenu-correspondance">
+                <div class="profil-match">
+                    <div class="avatar-correspondance">{{ mentor.prenom|first|upper }}{{ mentor.nom|first|upper }}</div>
+                    <div>
+                        <h4>{{ mentor.prenom }} {{ mentor.nom }}</h4>
+                        <p>{{ mentor.filiere }} — {{ mentor.niveau }}</p>
+                        {% if mentor.bio %}<p class="text-muted small">{{ mentor.bio }}</p>{% endif %}
+                    </div>
+                </div>
+                {% if points_forts %}
+                <div class="section-tags mt-3">
+                    <h6>Compétences</h6>
+                    <div class="tags">
+                        {% for pf in points_forts %}<span class="tag">{{ pf.competences.nom }}</span>{% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if disponibilites %}
+                <div class="mt-3">
+                    <h6>Disponibilités</h6>
+                    {% for d in disponibilites %}<p>{{ d.jour }} • {{ d.heure_debut }} - {{ d.heure_fin }}</p>{% endfor %}
+                </div>
+                {% endif %}
+                <div class="actions-correspondance mt-3">
+                    <a href="{% url 'matchings' %}" class="btn btn-light">
+                        <i class="bi bi-arrow-left me-1"></i>Retour
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="bandeau-matching mb-4">
+            <div class="icone-matching"><i class="bi bi-stars"></i></div>
+            <div>
+                <h3>Comment fonctionne le matching ?</h3>
+                <p>L'algorithme calcule un score basé sur vos compétences (50%), disponibilités (30%) et filière (20%).</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'calculer_matching' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-search me-2"></i>Lancer le matching
+            </a>
+        </div>
+        {% endif %}
+        {% endif %}
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

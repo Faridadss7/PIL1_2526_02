@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport - IFRI MentorLink - Groupe 02</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; color: #333; }
+        .section-title { color: #0d6efd; border-bottom: 2px solid #0d6efd; padding-bottom: 8px; margin: 2rem 0 1rem; }
+        .hero { background: linear-gradient(135deg, #0d6efd, #0056d2); color: white; padding: 60px 0; }
+        .badge-member { background: #e8f0fe; color: #0d6efd; padding: 6px 12px; border-radius: 20px; display: inline-block; margin: 4px; }
+        .schema-table th { background: #0d6efd; color: white; }
+        pre { background: #f8f9fa; border-radius: 8px; padding: 16px; }
+        .role-card { border: 1px solid #dee2e6; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">IFRI MentorLink</h1>
+        <p class="lead">Rapport de Projet Intégrateur 2025-2026</p>
+        <span class="badge bg-light text-dark fs-6">Groupe 02 — PIL1 2025-2026</span>
+    </div>
+</section>
+
+<div class="container py-5">
+
+    <!-- 1. Membres du groupe -->
+    <h2 class="section-title">1. Membres du Groupe</h2>
+    <p><strong>Groupe :</strong> Groupe 02 — PIL1 2025-2026</p>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <thead><tr><th>Nom & Prénom</th><th>Filière</th><th>Rôle</th></tr></thead>
+                <tbody>
+                    <tr><td>Chef de Groupe</td><td>—</td><td>Responsable repo, architecture, messagerie, offres backend, schéma BDD</td></tr>
+                    <tr><td>Membre 2</td><td>—</td><td>Module matching, algorithme</td></tr>
+                    <tr><td>Membre 3</td><td>—</td><td>Templates HTML/CSS (dashboard, profil)</td></tr>
+                    <tr><td>Membre 4</td><td>—</td><td>Templates HTML/CSS (messagerie, notifications)</td></tr>
+                    <tr><td>Membre 5</td><td>—</td><td>Module accounts, authentification</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 2. Fonctionnement interne -->
+    <h2 class="section-title">2. Fonctionnement Interne</h2>
+    <p>Le groupe a travaillé de manière collaborative avec Git et GitHub. La branche <code>main</code> centralise le code stable, une branche <code>dev</code> intermédiaire a servi d'intégration avant les merges.</p>
+    <ul>
+        <li><strong>Dépôt :</strong> <a href="https://github.com/Faridadss7/PIL1_2526_02" target="_blank">github.com/Faridadss7/PIL1_2526_02</a></li>
+        <li><strong>Outil de suivi :</strong> GitHub Issues + Trello</li>
+        <li><strong>Réunions :</strong> Sessions de travail en ligne et en présentiel selon le calendrier IFRI</li>
+    </ul>
+
+    <!-- 3. Description de la conception -->
+    <h2 class="section-title">3. Conception</h2>
+    <h4>3.1 Architecture</h4>
+    <p>L'application suit une architecture <strong>client-serveur MVC</strong> basée sur Django :</p>
+    <ul>
+        <li><strong>Frontend :</strong> HTML5, CSS3, Bootstrap 5, JavaScript</li>
+        <li><strong>Backend :</strong> Python 3, Django 5</li>
+        <li><strong>Base de données :</strong> PostgreSQL</li>
+    </ul>
+    <p>Le projet est découpé en 4 applications Django :</p>
+    <ul>
+        <li><code>accounts</code> — Gestion des utilisateurs, authentification, profil</li>
+        <li><code>matching</code> — Algorithme de correspondance mentor/mentoré</li>
+        <li><code>messagerie</code> — Conversations et messages</li>
+        <li><code>offres</code> — Publication et recherche d'offres/demandes de mentorat</li>
+    </ul>
+
+    <h4>3.2 Schéma de la Base de Données</h4>
+    <p>9 tables PostgreSQL :</p>
+    <table class="table table-bordered schema-table">
+        <thead><tr><th>Table</th><th>Description</th><th>Clés importantes</th></tr></thead>
+        <tbody>
+            <tr><td>utilisateurs</td><td>Comptes utilisateurs</td><td>PK: id, UNIQUE: email, telephone</td></tr>
+            <tr><td>disponibilites</td><td>Créneaux horaires</td><td>FK: utilisateur_id</td></tr>
+            <tr><td>competences</td><td>Référentiel des matières</td><td>PK: id, UNIQUE: nom</td></tr>
+            <tr><td>points_forts</td><td>Compétences maîtrisées</td><td>FK: competences_id, utilisateurs_id</td></tr>
+            <tr><td>points_faibles</td><td>Compétences à améliorer</td><td>FK: competences_id, utilisateurs_id</td></tr>
+            <tr><td>offres_mentorat</td><td>Offres et demandes publiées</td><td>FK: utilisateurs_id, competences_id</td></tr>
+            <tr><td>matching</td><td>Correspondances calculées</td><td>FK: mentor_id, mentore_id</td></tr>
+            <tr><td>conversations</td><td>Fils de discussion</td><td>FK: matching_id</td></tr>
+            <tr><td>messages</td><td>Messages individuels</td><td>FK: conversations_id, expediteur_id</td></tr>
+        </tbody>
+    </table>
+
+    <h4>3.3 Algorithme de Matching</h4>
+    <p>Le score de compatibilité est calculé selon 3 critères pondérés :</p>
+    <ul>
+        <li><strong>Compétences (50%) :</strong> intersection entre les points faibles du mentoré et les points forts du mentor</li>
+        <li><strong>Disponibilités (30%) :</strong> jours communs dans les créneaux horaires</li>
+        <li><strong>Filière (20%) :</strong> bonus si même filière</li>
+    </ul>
+
+    <!-- 4. Instructions de déploiement -->
+    <h2 class="section-title">4. Instructions de Déploiement</h2>
+    <h4>Prérequis</h4>
+    <ul>
+        <li>Python 3.10+</li>
+        <li>PostgreSQL 14+</li>
+        <li>pip</li>
+    </ul>
+    <h4>Étapes</h4>
+    <pre><code># 1. Cloner le dépôt
+git clone https://github.com/Faridadss7/PIL1_2526_02.git
+cd PIL1_2526_02
+
+# 2. Créer un environnement virtuel
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 3. Installer les dépendances
+pip install -r requirements.txt
+
+# 4. Configurer les variables d'environnement
+export DJANGO_SECRET_KEY="votre-cle-secrete"
+export DB_NAME="mentorlink"
+export DB_USER="postgres"
+export DB_PASSWORD="votre-mot-de-passe"
+
+# 5. Créer la base de données PostgreSQL
+psql -U postgres -c "CREATE DATABASE mentorlink;"
+
+# 6. Initialiser la base de données (schema.sql)
+psql -U postgres -d mentorlink -f database/schema.sql
+
+# 7. Appliquer les migrations Django
+python manage.py migrate
+
+# 8. Lancer le serveur
+python manage.py runserver</code></pre>
+
+    <!-- 5. Manuel d'utilisation -->
+    <h2 class="section-title">5. Manuel d'Utilisation</h2>
+    <h4>Inscription</h4>
+    <ol>
+        <li>Accédez à la page d'accueil : <code>http://localhost:8000/</code></li>
+        <li>Cliquez sur "Commencer" ou "Créer un compte"</li>
+        <li>Remplissez le formulaire (nom, prénom, email, téléphone, filière, niveau, mot de passe)</li>
+        <li>Sélectionnez vos points forts et points faibles selon votre niveau</li>
+    </ol>
+    <h4>Connexion</h4>
+    <ol>
+        <li>Accédez à <code>http://localhost:8000/accounts/connexion/</code></li>
+        <li>Entrez votre email et mot de passe</li>
+    </ol>
+    <h4>Trouver un mentor</h4>
+    <ol>
+        <li>Depuis le menu : <strong>Correspondances → Lancer le matching</strong></li>
+        <li>L'algorithme propose les mentors compatibles avec un score de compatibilité</li>
+        <li>Cliquez sur "Discuter" pour ouvrir une conversation</li>
+    </ol>
+    <h4>Publier une offre</h4>
+    <ol>
+        <li>Depuis le menu : <strong>Offres & Demandes</strong></li>
+        <li>Choisissez "Créer une offre" ou "Envoyer une demande"</li>
+        <li>Sélectionnez la matière, le format et ajoutez une description</li>
+    </ol>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <p class="mb-0">© 2026 IFRI MentorLink — Groupe 02 — Université d'Abomey-Calavi</p>
+</footer>
+
+</body>
+</html>

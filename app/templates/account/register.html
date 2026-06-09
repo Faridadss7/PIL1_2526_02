@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFRI MentorLink - Créer un Compte</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+      min-height: 100vh; padding: 40px 0;
+    }
+    .register-card {
+      border: none; border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      padding: 40px; max-width: 680px; width: 100%;
+    }
+    .brand-logo { color: #0d6efd; font-size: 2.5rem; }
+    .brand-title { font-size: 1.4rem; font-weight: 700; color: #1a1a2e; }
+    .form-control, .form-select {
+      border-radius: 10px; border: 1.5px solid #dee2e6;
+      padding: 10px 14px; transition: border-color 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+    }
+    .form-label { font-weight: 600; color: #444; margin-bottom: 5px; }
+    .btn-primary {
+      border-radius: 10px; padding: 12px; font-weight: 600; font-size: 1rem;
+      background: linear-gradient(135deg, #0d6efd, #0056d2);
+      border: none; transition: transform 0.1s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(13,110,253,0.4); }
+    .divider { height: 1px; background: #e9ecef; margin: 20px 0; }
+    .back-link { position: fixed; top: 20px; left: 20px; z-index: 100; }
+    .competences-section { max-height: 200px; overflow-y: auto; border: 1.5px solid #dee2e6; border-radius: 10px; padding: 10px; }
+    .competence-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+    .competence-item label { margin: 0; font-weight: normal; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <!-- Bouton retour accueil -->
+  <a href="{% url 'accueil' %}" class="back-link btn btn-outline-secondary btn-sm">
+    <i class="bi bi-arrow-left me-1"></i>Accueil
+  </a>
+
+  <div class="container d-flex justify-content-center">
+    <div class="register-card card">
+      <div class="text-center mb-4">
+        <i class="bi bi-mortarboard-fill brand-logo"></i>
+        <div class="brand-title mt-1">IFRI MentorLink</div>
+        <h5 class="fw-bold mt-3" style="font-size:1.5rem;color:#1a1a2e;">Créez Votre Compte</h5>
+        <p class="text-muted small">Rejoignez la communauté de mentorat IFRI</p>
+      </div>
+      <div class="divider"></div>
+
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Veuillez corriger les erreurs ci-dessous.
+      </div>
+      {% endif %}
+
+      <form method="POST" action="{% url 'inscription' %}" id="registerForm">
+        {% csrf_token %}
+
+        <!-- Prénom + Nom -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" name="prenom" class="form-control" id="prenom" autocomplete="off" required>
+          </div>
+          <div class="col-md-6">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" name="nom" class="form-control" id="nom" autocomplete="off" required>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Adresse Email</label>
+          <div class="input-group">
+            <span class="input-group-text rounded-start-3"><i class="bi bi-envelope"></i></span>
+            <input type="email" name="email" class="form-control rounded-end-3" id="email" autocomplete="email" required>
+          </div>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Numéro de téléphone</label>
+          <div class="input-group">
+            <span class="input-group-text rounded-start-3"><i class="bi bi-phone"></i></span>
+            <input type="tel" name="telephone" class="form-control rounded-end-3" id="telephone" placeholder="+22901XXXXXXXX" autocomplete="off" required>
+          </div>
+        </div>
+
+        <!-- Filière + Niveau -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="filiere" class="form-label">Filière</label>
+            <select class="form-select" name="filiere" id="filiere" required>
+              <option value="" selected disabled>Sélectionnez votre filière</option>
+              <option value="IA">IA</option>
+              <option value="IM">IM</option>
+              <option value="GL">GL</option>
+              <option value="SE&IoT">SE&IoT</option>
+              <option value="SI">SI</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="niveau" class="form-label">Niveau</label>
+            <select class="form-select" name="niveau" id="niveau" onchange="afficherCompetences()" required>
+              <option value="" selected disabled>Sélectionnez votre niveau</option>
+              <option value="L1">L1</option>
+              <option value="L2">L2</option>
+              <option value="L3">L3</option>
+              <option value="M1">Master</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Compétences dynamiques selon niveau -->
+        <div id="competences-block" class="mb-3" style="display:none;">
+          <label class="form-label">Points forts <span class="text-muted fw-normal small">(matières maîtrisées)</span></label>
+          <div class="competences-section" id="liste-points-forts"></div>
+        </div>
+
+        <div id="lacunes-block" class="mb-3" style="display:none;">
+          <label class="form-label">Points faibles <span class="text-muted fw-normal small">(matières où vous avez besoin d'aide)</span></label>
+          <div class="competences-section" id="liste-points-faibles"></div>
+        </div>
+
+        <!-- Bio -->
+        <div class="mb-3">
+          <label for="bio" class="form-label">Bio <span class="text-muted fw-normal small">(facultatif)</span></label>
+          <textarea name="bio" class="form-control" id="bio" rows="2" placeholder="Parlez-nous de vous..."></textarea>
+        </div>
+
+        <!-- Centres d'intérêt -->
+        <div class="mb-3">
+          <label for="centre_interet" class="form-label">Centres d'intérêt <span class="text-muted fw-normal small">(facultatif)</span></label>
+          <textarea name="centre_interet" class="form-control" id="centre_interet" rows="2" placeholder="Ex: Intelligence Artificielle, Python, Football..."></textarea>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Mot de passe -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="password" class="form-label">Mot de Passe</label>
+            <div class="input-group">
+              <span class="input-group-text rounded-start-3"><i class="bi bi-lock"></i></span>
+              <input type="password" name="password1" class="form-control rounded-end-3" id="password" autocomplete="new-password" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label">Confirmer le Mot de Passe</label>
+            <div class="input-group">
+              <span class="input-group-text rounded-start-3"><i class="bi bi-lock-fill"></i></span>
+              <input type="password" name="password2" class="form-control rounded-end-3" id="confirmPassword" autocomplete="new-password" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conditions -->
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="conditions" required>
+          <label class="form-check-label small" for="conditions">
+            J'accepte les <a href="#" class="text-primary">Conditions d'Utilisation</a> et la <a href="#" class="text-primary">Politique de Confidentialité</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-person-plus me-2"></i>Créer un Compte
+        </button>
+      </form>
+
+      {% if google_enabled %}
+      <div class="divider"></div>
+      <a href="{% url 'google_login' %}" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="20" height="20">
+        S'inscrire avec Google
+      </a>
+      {% endif %}
+
+      <div class="text-center mt-3">
+        <p class="small mb-0">Vous avez déjà un compte ? <a href="{% url 'connexion' %}" class="text-primary fw-semibold">Se Connecter</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const competencesParNiveau = {
+      L1: [
+        "Logique arithmétique et ses applications",
+        "Mathématiques fondamentales",
+        "Probabilité et statistique",
+        "Architecture et topologie des réseaux informatiques",
+        "Système d'exploitation et outils de base en informatique",
+        "Base de la programmation",
+        "Déontologie et droit liés aux TIC",
+        "Techniques d'expression écrite et orale",
+        "Administration des réseaux sous Windows/Linux",
+        "Convergence et calcul différentiel",
+        "Projet intégrateur",
+        "Mathématiques appliquées",
+        "Technologies web et infographie",
+        "Base de données relationnelles",
+        "Programmation Python",
+        "Anglais technique"
+      ],
+      L2: [
+        "Structures algébriques et leurs applications en informatique",
+        "Approche orientée objet",
+        "Structures de données et applications avec C/Python",
+        "Statistiques et probabilités pour le scientifique de la donnée",
+        "Concepts et applications de l'intelligence artificielle",
+        "Aspects avancés des technologies web",
+        "Bases du génie logiciel",
+        "Maintenance des appareils électroniques",
+        "Administration systèmes et réseaux",
+        "Sécurité des systèmes informatiques",
+        "Management de la sécurité du système d'information",
+        "Sécurité des réseaux",
+        "Programmation avancée en Java",
+        "Programmation graphique en Qt/C++",
+        "Programmation avancée en Python et R",
+        "Big data",
+        "Outils cloud de collecte et de traitement des données",
+        "Concepts et applications de l'apprentissage automatique",
+        "Techniques de résolution de problème par la recherche",
+        "Gestion des projets",
+        "Communication managériale",
+        "Anglais pour la communication scientifique",
+        "Politique de sécurité des systèmes d'information",
+        "Commutation et routage",
+        "Audit normes de sécurité et gestion des risques et incidents",
+        "Sécurisation des réseaux sans fil",
+        "Cryptographie et applications",
+        "Programmation et manipulation des données",
+        "Système d'information décisionnelle et sécurité",
+        "Génie logiciel",
+        "Cycle de vie d'un logiciel et assurance qualité"
+      ],
+      L3: [
+        "Formation sur une certification en science de la donnée",
+        "Développement d'applications basées sur l'apprentissage automatique",
+        "Veille technologique",
+        "Hackathon en science de données/Big Data",
+        "Corporation Data analytics",
+        "Outils de résolution de problèmes d'optimisation",
+        "Communication",
+        "Techniques entrepreneuriales",
+        "Stage",
+        "Rédaction et soutenance de mémoire"
+      ],
+      M1: [
+        "Python Avancé", "Java Avancé", "C++ Avancé", "JavaScript Avancé",
+        "PHP Avancé", "R Avancé", "Scala Avancé", "Go Avancé",
+        "Rust Avancé", "Swift Avancé", "Kotlin Avancé", "Math Avancé"
+      ]
+    };
+
+    function afficherCompetences() {
+      const niveau = document.getElementById('niveau').value;
+      const competences = competencesParNiveau[niveau] || [];
+
+      const blockForts = document.getElementById('competences-block');
+      const blockFaibles = document.getElementById('lacunes-block');
+      const listeForts = document.getElementById('liste-points-forts');
+      const listeFaibles = document.getElementById('liste-points-faibles');
+
+      if (competences.length === 0) {
+        blockForts.style.display = 'none';
+        blockFaibles.style.display = 'none';
+        return;
+      }
+
+      blockForts.style.display = 'block';
+      blockFaibles.style.display = 'block';
+
+      let htmlForts = '';
+      let htmlFaibles = '';
+
+      competences.forEach((comp, i) => {
+        htmlForts += `
+          <div class="competence-item">
+            <input type="checkbox" name="points_forts" value="${comp}" id="fort_${i}" class="form-check-input">
+            <label for="fort_${i}">${comp}</label>
+          </div>`;
+        htmlFaibles += `
+          <div class="competence-item">
+            <input type="checkbox" name="points_faibles" value="${comp}" id="faible_${i}" class="form-check-input">
+            <label for="faible_${i}">${comp}</label>
+          </div>`;
+      });
+
+      listeForts.innerHTML = htmlForts;
+      listeFaibles.innerHTML = htmlFaibles;
+    }
+  </script>
+</body>
+</html>
