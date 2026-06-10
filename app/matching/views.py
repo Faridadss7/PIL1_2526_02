@@ -77,11 +77,22 @@ def recherche_mentor(request):
             django_messages.error(request, "Profil non trouvé. Veuillez compléter votre profil.")
         except Exception as e:
             django_messages.error(request, f"Erreur lors du calcul : {str(e)}")
+    
+    # Calculate notifications
+    nb_matchings_en_attente = Matching.objects.filter(
+        mentor_id=request.user.id,
+        statut='en_attente'
+    ).count()
+    from app.messagerie.utils import messages_utilisateur
+    msgs = messages_utilisateur(request.user.id)
+    nb_non_lus = msgs.filter(lu=False).exclude(expediteur_id=request.user.id).count()
+    nb_notifications = nb_matchings_en_attente + nb_non_lus
 
     return render(request, 'matching/matchings.html', {
         'resultats': resultats,
         'message': message,
         'user': request.user,
+        'nb_notifications': nb_notifications,
     })
 
 
@@ -98,11 +109,23 @@ def detail_mentor(request, mentor_id):
             utilisateurs=mentor
         ).select_related('competences')
         disponibilites = Disponibilites.objects.filter(utilisateur=mentor)
+        
+        # Calculate notifications
+        nb_matchings_en_attente = Matching.objects.filter(
+            mentor_id=request.user.id,
+            statut='en_attente'
+        ).count()
+        from app.messagerie.utils import messages_utilisateur
+        msgs = messages_utilisateur(request.user.id)
+        nb_non_lus = msgs.filter(lu=False).exclude(expediteur_id=request.user.id).count()
+        nb_notifications = nb_matchings_en_attente + nb_non_lus
+        
         return render(request, 'matching/matchings.html', {
             'mentor': mentor,
             'points_forts': points_forts,
             'disponibilites': disponibilites,
             'user': request.user,
+            'nb_notifications': nb_notifications,
         })
     except Http404:
         raise
@@ -149,8 +172,48 @@ def refuser_matching(request, matching_id):
 
 
 @login_required
+def contacter_direct(request, utilisateur_id):
+    """Crée un matching en attente avec un mentor depuis les résultats de recherche."""
+    try:
+        ensure_utilisateur(request.user)
+    except Exception as e:
+        django_messages.error(request, f"Profil non synchronisé : {e}")
+        return redirect('profil')
+    
+    if utilisateur_id == request.user.id:
+        django_messages.error(request, "Vous ne pouvez pas vous contacter vous-même.")
+        return redirect('matchings')
+    
+    try:
+        mentor = get_object_or_404(Utilisateurs, id=utilisateur_id)
+        utilisateur = ensure_utilisateur(request.user)
+        
+        existing = Matching.objects.filter(
+            mentor_id=utilisateur_id,
+            mentore_id=request.user.id,
+            statut='en_attente'
+        ).exists()
+        
+        if existing:
+            django_messages.info(request, "Vous avez déjà envoyé une demande à ce mentor.")
+            return redirect('mes_matchings')
+        
+        Matching.objects.create(
+            mentor=mentor,
+            mentore=utilisateur,
+            statut='en_attente'
+        )
+        
+        django_messages.success(request, "Demande envoyée ! En attente de réponse du mentor.")
+        return redirect('mes_matchings')
+    except Exception as e:
+        django_messages.error(request, f"Erreur : {str(e)}")
+        return redirect('matchings')
+
+
+@login_required
 def mes_matchings(request):
-    """Matchings en attente (utilisateur mentor) et matchings acceptés (mentor ou mentoré)."""
+    """Affiche 3 onglets : Demandes reçues, Mes demandes envoyées, Matchings acceptés."""
     try:
         ensure_utilisateur(request.user)
     except Exception as e:
@@ -158,22 +221,41 @@ def mes_matchings(request):
         return redirect('profil')
 
     try:
-        matchings_en_attente = Matching.objects.filter(
+        demandes_recues = Matching.objects.filter(
             mentor_id=request.user.id,
             statut='en_attente'
         ).select_related('mentore').order_by('-date_matching')
+        
+        demandes_envoyees = Matching.objects.filter(
+            mentore_id=request.user.id,
+            statut='en_attente'
+        ).select_related('mentor').order_by('-date_matching')
+        
         matchings_acceptes = Matching.objects.filter(
             Q(mentor_id=request.user.id) | Q(mentore_id=request.user.id),
             statut='accepte'
         ).select_related('mentor', 'mentore').order_by('-date_matching')
     except Exception as e:
         django_messages.error(request, f"Erreur : {str(e)}")
-        matchings_en_attente = Matching.objects.none()
+        demandes_recues = Matching.objects.none()
+        demandes_envoyees = Matching.objects.none()
         matchings_acceptes = Matching.objects.none()
+    
+    # Calculate notifications
+    nb_matchings_en_attente = Matching.objects.filter(
+        mentor_id=request.user.id,
+        statut='en_attente'
+    ).count()
+    from app.messagerie.utils import messages_utilisateur
+    msgs = messages_utilisateur(request.user.id)
+    nb_non_lus = msgs.filter(lu=False).exclude(expediteur_id=request.user.id).count()
+    nb_notifications = nb_matchings_en_attente + nb_non_lus
 
     return render(request, 'matching/matchings.html', {
-        'matchings_en_attente': matchings_en_attente,
+        'demandes_recues': demandes_recues,
+        'demandes_envoyees': demandes_envoyees,
         'matchings_acceptes': matchings_acceptes,
         'user': request.user,
         'vue_matchings': True,
+        'nb_notifications': nb_notifications,
     })

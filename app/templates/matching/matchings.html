@@ -24,7 +24,7 @@
             <li><a href="{% url 'messages' %}"><i class="bi bi-chat-dots"></i> Messages</a></li>
             <li><a href="{% url 'sessions' %}"><i class="bi bi-calendar-event"></i> Sessions</a></li>
             <li><a href="{% url 'profil' %}"><i class="bi bi-person"></i> Profil</a></li>
-            <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications</a></li>
+            <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications{% if nb_notifications %} <span class="badge bg-danger ms-1">{{ nb_notifications }}</span>{% endif %}</a></li>
         </ul>
         <div class="sidebar-footer">
             <div class="user-box">
@@ -63,72 +63,132 @@
         </div>
 
         {% if vue_matchings %}
-        {# Mode 1 : gestion des matchings #}
+        {# Mode 1 : gestion des matchings avec 3 onglets #}
         <section>
-            <h5 class="mb-3"><i class="bi bi-hourglass-split me-2"></i>Demandes en attente</h5>
-            {% if matchings_en_attente %}
-                {% for m in matchings_en_attente %}
-                <div class="carte-correspondance mb-3">
-                    <div class="contenu-correspondance">
-                        <div class="profil-match">
-                            <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
-                            <div>
-                                <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
-                                <p>{{ m.mentore.filiere }} — {{ m.mentore.niveau }}</p>
-                            </div>
-                        </div>
-                        <div class="actions-correspondance mt-2">
-                            <a href="{% url 'accepter' m.id %}" class="btn btn-success btn-sm">
-                                <i class="bi bi-check2 me-1"></i>Accepter
-                            </a>
-                            <a href="{% url 'refuser' m.id %}" class="btn btn-outline-danger btn-sm ms-1">
-                                <i class="bi bi-x me-1"></i>Refuser
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            {% else %}
-            <div class="text-center py-4 text-muted">
-                <i class="bi bi-inbox fs-2"></i>
-                <p class="mt-2">Aucune demande en attente.</p>
-            </div>
-            {% endif %}
+            <ul class="nav nav-pills mb-4" id="matchingsTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#demandesRecues">
+                        <i class="bi bi-inbox me-2"></i>Demandes reçues
+                        {% if demandes_recues %}
+                        <span class="badge bg-danger ms-1">{{ demandes_recues|length }}</span>
+                        {% endif %}
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#demandesEnvoyees">
+                        <i class="bi bi-send me-2"></i>Mes demandes envoyées
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#matchingsAcceptes">
+                        <i class="bi bi-person-check me-2"></i>Matchings acceptés
+                    </button>
+                </li>
+            </ul>
 
-            <h5 class="mb-3 mt-4"><i class="bi bi-person-check me-2"></i>Correspondances acceptées</h5>
-            {% if matchings_acceptes %}
-                {% for m in matchings_acceptes %}
-                <div class="carte-correspondance mb-3">
-                    <div class="contenu-correspondance">
-                        <div class="profil-match">
-                            {% if m.mentor_id == user.id %}
-                            <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
-                            <div>
-                                <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
-                                <p>Mentoré — {{ m.mentore.filiere }}</p>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="demandesRecues">
+                    <h5 class="mb-3">Demandes reçues (en attente de votre réponse)</h5>
+                    {% if demandes_recues %}
+                        {% for m in demandes_recues %}
+                        <div class="carte-correspondance mb-3">
+                            <div class="contenu-correspondance">
+                                <div class="profil-match">
+                                    <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
+                                    <div>
+                                        <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
+                                        <p>{{ m.mentore.filiere }} — {{ m.mentore.niveau }}</p>
+                                    </div>
+                                </div>
+                                <div class="actions-correspondance mt-2">
+                                    <form method="POST" action="{% url 'accepter' m.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="bi bi-check2 me-1"></i>Accepter
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="{% url 'refuser' m.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ms-1">
+                                            <i class="bi bi-x me-1"></i>Refuser
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                            {% else %}
-                            <div class="avatar-correspondance">{{ m.mentor.prenom|first|upper }}{{ m.mentor.nom|first|upper }}</div>
-                            <div>
-                                <h5>{{ m.mentor.prenom }} {{ m.mentor.nom }}</h5>
-                                <p>Mentor — {{ m.mentor.filiere }}</p>
-                            </div>
-                            {% endif %}
                         </div>
-                        <div class="actions-correspondance mt-2">
-                            <a href="{% url 'messages' %}" class="btn btn-primary btn-sm">
-                                <i class="bi bi-chat-dots me-1"></i>Discuter
-                            </a>
-                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox fs-2"></i>
+                        <p class="mt-2">Aucune demande reçue.</p>
                     </div>
+                    {% endif %}
                 </div>
-                {% endfor %}
-            {% else %}
-            <div class="text-center py-4 text-muted">
-                <i class="bi bi-people fs-2"></i>
-                <p class="mt-2">Aucune correspondance acceptée pour le moment.</p>
+
+                <div class="tab-pane fade" id="demandesEnvoyees">
+                    <h5 class="mb-3">Mes demandes envoyées (en attente de réponse)</h5>
+                    {% if demandes_envoyees %}
+                        {% for m in demandes_envoyees %}
+                        <div class="carte-correspondance mb-3">
+                            <div class="contenu-correspondance">
+                                <div class="profil-match">
+                                    <div class="avatar-correspondance">{{ m.mentor.prenom|first|upper }}{{ m.mentor.nom|first|upper }}</div>
+                                    <div>
+                                        <h5>{{ m.mentor.prenom }} {{ m.mentor.nom }}</h5>
+                                        <p>{{ m.mentor.filiere }} — {{ m.mentor.niveau }}</p>
+                                    </div>
+                                </div>
+                                <div class="actions-correspondance mt-2">
+                                    <span class="badge bg-warning text-dark">En attente de réponse</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-send fs-2"></i>
+                        <p class="mt-2">Aucune demande envoyée.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="tab-pane fade" id="matchingsAcceptes">
+                    <h5 class="mb-3">Matchings acceptés</h5>
+                    {% if matchings_acceptes %}
+                        {% for m in matchings_acceptes %}
+                        <div class="carte-correspondance mb-3">
+                            <div class="contenu-correspondance">
+                                <div class="profil-match">
+                                    {% if m.mentor_id == user.id %}
+                                    <div class="avatar-correspondance">{{ m.mentore.prenom|first|upper }}{{ m.mentore.nom|first|upper }}</div>
+                                    <div>
+                                        <h5>{{ m.mentore.prenom }} {{ m.mentore.nom }}</h5>
+                                        <p>Mentoré — {{ m.mentore.filiere }}</p>
+                                    </div>
+                                    {% else %}
+                                    <div class="avatar-correspondance">{{ m.mentor.prenom|first|upper }}{{ m.mentor.nom|first|upper }}</div>
+                                    <div>
+                                        <h5>{{ m.mentor.prenom }} {{ m.mentor.nom }}</h5>
+                                        <p>Mentor — {{ m.mentor.filiere }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="actions-correspondance mt-2">
+                                    <a href="{% url 'messages' %}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-chat-dots me-1"></i>Discuter
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-people fs-2"></i>
+                        <p class="mt-2">Aucune correspondance acceptée pour le moment.</p>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
         </section>
 
         {% elif resultats is not None %}
@@ -171,6 +231,12 @@
                         <a href="{% url 'detail_mentor' r.mentor.id %}" class="btn btn-primary btn-sm">
                             <i class="bi bi-person me-1"></i>Voir profil
                         </a>
+                        <form method="POST" action="{% url 'contacter_direct' r.mentor.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-send me-1"></i>Contacter
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

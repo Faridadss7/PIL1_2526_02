@@ -379,8 +379,16 @@ def dashboard(request):
         nb_messages = msgs.filter(expediteur_id=user_id).count()
         nb_non_lus = msgs.filter(lu=False).exclude(expediteur_id=user_id).count()
         nb_sessions = conversations_utilisateur(user_id).count()
+        
+        # Compter les notifications de matching
+        nb_matchings_en_attente_recus = Matching.objects.filter(
+            mentor_id=user_id,
+            statut='en_attente'
+        ).count()
+        
+        nb_notifications = nb_non_lus + nb_matchings_en_attente_recus
     except Exception:
-        nb_matchings = nb_messages = nb_non_lus = nb_sessions = nb_mentors = 0
+        nb_matchings = nb_messages = nb_non_lus = nb_sessions = nb_mentors = nb_notifications = 0
 
     return render(request, 'dashboard.html', {
         'user': request.user,
@@ -389,4 +397,5 @@ def dashboard(request):
         'nb_sessions': nb_sessions,
         'nb_mentors': nb_mentors,
         'nb_non_lus': nb_non_lus,
+        'nb_notifications': nb_notifications,
     })

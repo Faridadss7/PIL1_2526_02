@@ -104,8 +104,8 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
 EMAIL_BACKEND =os.environ.get(
-    'Email_BACKEND',
-    'django.core.mail.backends.console.EmailBackend'
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.smtp.EmailBackend'
 )
 
 if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:

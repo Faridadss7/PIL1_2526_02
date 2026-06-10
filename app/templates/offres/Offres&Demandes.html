@@ -24,7 +24,7 @@
                 <li><a href="{% url 'messages' %}"><i class="bi bi-chat-dots"></i> Messages</a></li>
                 <li><a href="{% url 'sessions' %}"><i class="bi bi-calendar-event"></i> Sessions</a></li>
                 <li><a href="{% url 'profil' %}"><i class="bi bi-person"></i> Profil</a></li>
-                <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications</a></li>
+                <li><a href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications{% if nb_notifications %} <span class="badge bg-danger ms-1">{{ nb_notifications }}</span>{% endif %}</a></li>
             </ul>
             <div class="sidebar-footer">
                 <div class="user-box">
@@ -89,13 +89,15 @@
                                     <input type="hidden" name="type" value="offre">
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label">Matière / Compétence</label>
-                                            <select name="competence_id" class="form-select" required>
-                                                <option value="">--- Choisir ---</option>
+                                            <label class="form-label">Matières / Compétences (plusieurs choix possibles)</label>
+                                            <div class="border p-3 rounded" style="max-height: 200px; overflow-y: auto;">
                                                 {% for comp in competences %}
-                                                <option value="{{ comp.id }}">{{ comp.nom }}</option>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="competence_ids" value="{{ comp.id }}" id="comp_{{ comp.id }}">
+                                                    <label class="form-check-label" for="comp_{{ comp.id }}">{{ comp.nom }}</label>
+                                                </div>
                                                 {% endfor %}
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Format</label>
@@ -104,6 +106,27 @@
                                                 <option value="en_ligne">En ligne</option>
                                                 <option value="les_deux">Les deux</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Jour de disponibilité</label>
+                                            <select name="jour_dispo" class="form-select">
+                                                <option value="">--- Choisir ---</option>
+                                                <option value="Lundi">Lundi</option>
+                                                <option value="Mardi">Mardi</option>
+                                                <option value="Mercredi">Mercredi</option>
+                                                <option value="Jeudi">Jeudi</option>
+                                                <option value="Vendredi">Vendredi</option>
+                                                <option value="Samedi">Samedi</option>
+                                                <option value="Dimanche">Dimanche</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Heure de début</label>
+                                            <input type="time" name="heure_debut" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Heure de fin</label>
+                                            <input type="time" name="heure_fin" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Description (facultatif)</label>
@@ -122,13 +145,15 @@
                                     <input type="hidden" name="type" value="demande">
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label">Matière recherchée</label>
-                                            <select name="competence_id" class="form-select" required>
-                                                <option value="">--- Choisir ---</option>
+                                            <label class="form-label">Matières recherchées (plusieurs choix possibles)</label>
+                                            <div class="border p-3 rounded" style="max-height: 200px; overflow-y: auto;">
                                                 {% for comp in competences %}
-                                                <option value="{{ comp.id }}">{{ comp.nom }}</option>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="competence_ids" value="{{ comp.id }}" id="comp_req_{{ comp.id }}">
+                                                    <label class="form-check-label" for="comp_req_{{ comp.id }}">{{ comp.nom }}</label>
+                                                </div>
                                                 {% endfor %}
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Format</label>
@@ -137,6 +162,27 @@
                                                 <option value="en_ligne">En ligne</option>
                                                 <option value="les_deux">Les deux</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Jour de disponibilité</label>
+                                            <select name="jour_dispo" class="form-select">
+                                                <option value="">--- Choisir ---</option>
+                                                <option value="Lundi">Lundi</option>
+                                                <option value="Mardi">Mardi</option>
+                                                <option value="Mercredi">Mercredi</option>
+                                                <option value="Jeudi">Jeudi</option>
+                                                <option value="Vendredi">Vendredi</option>
+                                                <option value="Samedi">Samedi</option>
+                                                <option value="Dimanche">Dimanche</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Heure de début</label>
+                                            <input type="time" name="heure_debut" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Heure de fin</label>
+                                            <input type="time" name="heure_fin" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Description (facultatif)</label>
@@ -155,8 +201,24 @@
             {% endif %}
 
             <section class="results-section mt-4">
-                <div class="section-header">
+                <div class="section-header d-flex justify-content-between align-items-center">
                     <h3>{% if mes_offres_vue %}Mes publications{% else %}Offres actives{% endif %}</h3>
+                    {% if not mes_offres_vue %}
+                    <form method="GET" class="d-flex gap-2">
+                        <input type="text" name="matiere" class="form-control form-control-sm" placeholder="Rechercher par matière..." value="{{ matiere }}">
+                        <select name="jour_dispo" class="form-select form-select-sm">
+                            <option value="">Tous les jours</option>
+                            <option value="Lundi" {% if jour_dispo == 'Lundi' %}selected{% endif %}>Lundi</option>
+                            <option value="Mardi" {% if jour_dispo == 'Mardi' %}selected{% endif %}>Mardi</option>
+                            <option value="Mercredi" {% if jour_dispo == 'Mercredi' %}selected{% endif %}>Mercredi</option>
+                            <option value="Jeudi" {% if jour_dispo == 'Jeudi' %}selected{% endif %}>Jeudi</option>
+                            <option value="Vendredi" {% if jour_dispo == 'Vendredi' %}selected{% endif %}>Vendredi</option>
+                            <option value="Samedi" {% if jour_dispo == 'Samedi' %}selected{% endif %}>Samedi</option>
+                            <option value="Dimanche" {% if jour_dispo == 'Dimanche' %}selected{% endif %}>Dimanche</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
+                    </form>
+                    {% endif %}
                 </div>
                 <div class="row g-4">
                     {% if offres %}
@@ -192,6 +254,12 @@
                                     <span class="badge {% if offre.statut == 'active' %}bg-success{% else %}bg-secondary{% endif %} me-2">
                                         {% if offre.statut == 'active' %}Active{% else %}Inactive{% endif %}
                                     </span>
+                                    {# Note: Feature disabled - Matching model lacks offre_id field #}
+                                    {# {% if offre.nb_reponses > 0 %}
+                                    <a href="{% url 'resultats_offre' offre.id %}" class="btn btn-info btn-sm me-2">
+                                        <i class="bi bi-eye me-1"></i>Voir les réponses ({{ offre.nb_reponses }})
+                                    </a>
+                                    {% endif %} #}
                                     <form method="POST" action="{% url 'changer_statut' offre.id %}" class="d-inline">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-outline-secondary btn-sm">

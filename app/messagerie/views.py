@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages as django_messages
 from app.auth.accounts.db_guard import require_metier_schema
 from app.auth.accounts.sync_utilisateur import ensure_utilisateur
-from app.matching.models import Conversations, Messages
+from app.matching.models import Conversations, Messages, Matching
 from .utils import conversations_utilisateur, est_participant, messages_utilisateur
 
 
@@ -90,6 +90,7 @@ def notifications(request):
     if not _ensure_messagerie_user(request):
         return render(request, 'messagerie/notifications.html', {
             'messages_non_lus': [],
+            'matchings_en_attente': [],
             'user': request.user,
         })
     messages_non_lus = messages_utilisateur(request.user.id).filter(
@@ -97,8 +98,15 @@ def notifications(request):
     ).exclude(
         expediteur_id=request.user.id,
     ).select_related('expediteur', 'conversations').order_by('-date_envoi')
+    
+    matchings_en_attente = Matching.objects.filter(
+        mentor_id=request.user.id,
+        statut='en_attente'
+    ).select_related('mentore').order_by('-date_matching')
+    
     return render(request, 'messagerie/notifications.html', {
         'messages_non_lus': messages_non_lus,
+        'matchings_en_attente': matchings_en_attente,
         'user': request.user,
     })
 

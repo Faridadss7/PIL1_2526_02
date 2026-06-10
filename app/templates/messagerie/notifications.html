@@ -28,8 +28,8 @@
                 <li class="active">
                     <a href="{% url 'notifications' %}">
                         <i class="bi bi-bell"></i> Notifications
-                        {% if messages_non_lus %}
-                        <span id="badgeNotifications" class="badge bg-danger ms-2">{{ messages_non_lus.count }}</span>
+                        {% if matchings_en_attente or messages_non_lus %}
+                        <span id="badgeNotifications" class="badge bg-danger ms-2">{{ matchings_en_attente|length|add:messages_non_lus|length }}</span>
                         {% else %}
                         <span id="badgeNotifications" class="badge bg-danger ms-2 d-none">0</span>
                         {% endif %}
@@ -67,17 +67,31 @@
             </section>
 
             <section class="liste-notifications">
-                {% if messages_non_lus %}
-                    {% for msg in messages_non_lus %}
-                    <a href="{% url 'chat' msg.conversations_id %}" class="carte-notification non-lue text-decoration-none text-dark d-flex">
-                        <div class="icone-notification"><i class="bi bi-chat-dots-fill"></i></div>
-                        <div class="contenu-notification">
-                            <h5>Nouveau message de {{ msg.expediteur.prenom }} {{ msg.expediteur.nom }}</h5>
-                            <p>{{ msg.contenu|truncatechars:80 }}</p>
-                            <small>il y a {{ msg.date_envoi|timesince }}</small>
-                        </div>
-                    </a>
-                    {% endfor %}
+                {% if messages_non_lus or matchings_en_attente %}
+                    {% if matchings_en_attente %}
+                        {% for m in matchings_en_attente %}
+                        <a href="{% url 'mes_matchings' %}" class="carte-notification non-lue text-decoration-none text-dark d-flex">
+                            <div class="icone-notification"><i class="bi bi-people-fill"></i></div>
+                            <div class="contenu-notification">
+                                <h5>Nouvelle demande de mentorat</h5>
+                                <p>{{ m.mentore.prenom }} {{ m.mentore.nom }} souhaite être mentoré par vous.</p>
+                                <small>il y a {{ m.date_matching|timesince }}</small>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
+                    {% if messages_non_lus %}
+                        {% for msg in messages_non_lus %}
+                        <a href="{% url 'chat' msg.conversations_id %}" class="carte-notification non-lue text-decoration-none text-dark d-flex">
+                            <div class="icone-notification"><i class="bi bi-chat-dots-fill"></i></div>
+                            <div class="contenu-notification">
+                                <h5>Nouveau message de {{ msg.expediteur.prenom }} {{ msg.expediteur.nom }}</h5>
+                                <p>{{ msg.contenu|truncatechars:80 }}</p>
+                                <small>il y a {{ msg.date_envoi|timesince }}</small>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
                 {% else %}
                     <div class="text-center py-5 text-muted">
                         <i class="bi bi-bell-slash fs-1"></i>

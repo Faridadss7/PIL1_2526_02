@@ -28,6 +28,7 @@ urlpatterns = [
     path('offres/', views.offres_demandes, name='offres_demandes'),
     # Matching
     path('matchings/calculer/', matching_views.calculer_matching, name='calculer_matching'),
+    path('matchings/contacter/<int:utilisateur_id>/', matching_views.contacter_direct, name='contacter_direct'),
     path('matchings/mes-matchings/', matching_views.mes_matchings, name='mes_matchings'),
     path('matchings/mentor/<int:mentor_id>/', matching_views.detail_mentor, name='detail_mentor'),
     path('matchings/accepter/<int:matching_id>/', matching_views.accepter_matching, name='accepter'),

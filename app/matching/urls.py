@@ -1,3 +1,7 @@
-# Routes centralisées dans app.auth.accounts.urls (préfixe /accounts/)
+from django.urls import path
+from . import views
 
-urlpatterns = []
+urlpatterns = [
+    path('contacter/<int:utilisateur_id>/', views.contacter_direct, name='contacter_direct'),
+    path('mes-matchings/', views.mes_matchings, name='mes_matchings'),
+]

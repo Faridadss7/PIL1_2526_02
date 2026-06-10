@@ -16,6 +16,10 @@
             Un email de confirmation a été envoyé{% if email %} à <strong>{{ email }}</strong>{% endif %}.
             Cliquez sur le lien pour activer votre compte avant de vous connecter.
         </p>
+        <div class="alert alert-info small text-start">
+            <i class="bi bi-info-circle me-2"></i>
+            Si vous ne recevez pas l'email dans les prochaines minutes, vérifiez votre dossier <strong>Spam</strong> ou <strong>Pourriels</strong> dans Gmail.
+        </div>
         {% if not email_configured %}
         <div class="alert alert-warning small text-start">
             Mode développement : les emails s'affichent dans la console du serveur Django
