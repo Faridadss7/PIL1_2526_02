@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Projet - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --primary-dark: #0a58ca;
+            --secondary: #6c757d;
+            --success: #198754;
+            --info: #0dcaf0;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin: 3rem 0 1.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--warning);
+        }
+        
+        .card-custom {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .table-custom thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .table-custom th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-custom td {
+            padding: 15px;
+            vertical-align: middle;
+            border-color: #e9ecef;
+        }
+        
+        .table-custom tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        
+        .table-custom tbody tr:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        
+        .badge-custom {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .step-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-weight: 500;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .nav-pills .nav-link:hover:not(.active) {
+            background: rgba(13, 110, 253, 0.1);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a1a 100%);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            background: var(--primary-dark);
+        }
+        
+        .toc {
+            position: sticky;
+            top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 10px;
+        }
+        
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--primary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 0 40px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .table-custom {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">IFRI MentorLink</h1>
+                <p class="lead mb-4">Plateforme de mentorat étudiant - Projet Intégrateur PIL1 2025-2026</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <span class="badge badge-custom bg-light text-dark">Groupe 02</span>
+                    <span class="badge badge-custom bg-light text-dark">Université d'Abomey-Calavi</span>
+                    <span class="badge badge-custom bg-light text-dark">IFRI</span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="bi bi-mortarboard-fill" style="font-size: 8rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#groupe">Groupe</a></li>
+                <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+                <li class="nav-item"><a class="nav-link" href="#deploiement">Déploiement</a></li>
+                <li class="nav-item"><a class="nav-link" href="#manuel">Manuel</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Table of Contents -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="toc">
+                <h5 class="mb-3"><i class="bi bi-list-ul me-2"></i>Sommaire</h5>
+                <ul>
+                    <li><a href="#groupe">1. Présentation du Groupe</a></li>
+                    <li><a href="#architecture">2. Architecture Technique</a></li>
+                    <li><a href="#deploiement">3. Guide de Déploiement</a></li>
+                    <li><a href="#manuel">4. Manuel d'Utilisation</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            
+            <!-- Section 1: Groupe -->
+            <section id="groupe">
+                <h2 class="section-title">1. Présentation du Groupe</h2>
+                <p class="mb-4">Le projet IFRI MentorLink a été réalisé par le <strong>Groupe 02</strong> dans le cadre du Projet Intégrateur PIL1 2025-2026 de l'Institut de Formation et de Recherche en Informatique (IFRI) de l'Université d'Abomey-Calavi.</p>
+                
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-people-fill me-2 text-primary"></i>Membres de l'équipe</h5>
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Nom et Prénom</th>
+                                    <th>GitHub</th>
+                                    <th>Email</th>
+                                    <th>Tâche</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>ADISSO Farid</strong></td>
+                                    <td><a href="https://github.com/Faridadss7" target="_blank"><i class="bi bi-github"></i> Farid</a></td>
+                                    <td>faridadss1234@gmail.com</td>
+                                    <td>Responsable du ,chargé de database;feature messagerie;Assemblage ainsi que mise en place de email de vérification</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>GBAGUIDI Hendrik</strong></td>
+                                    <td><a href="https://github.com/gbaguidihendrikottnielgbagos-cell" target="_blank"><i class="bi bi-github"></i>Hendrick</a></td>
+                                    <td>gbaguidihendrikottnielgbagos@gmail.com</td>
+                                    <td>Menbre,chargé de views.py, forms.py, urls.py, models.py sur feature/auth</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IDRISSOU Arafat </strong></td>
+                                    <td><a href="https://github.com/Ar977-hub" target="_blank"><i class="bi bi-github"></i> Arafat</a></td>
+                                    <td>arafatidri@gmail.com</td>
+                                    <td>Membre,chargé du views.py de offres_mentorat et du models.py du matching sur feature/offes_mentorat et du feature/matching </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>HOUNKPETO Accomplie</strong></td>
+                                    <td><a href="https://github.com/GraceH9" target="_blank"><i class="bi bi-github"></i>Grace</a></td>
+                                    <td>gracehounkpeto@gmail.com</td>
+                                    <td>Membre chargé de modele.py sur offre mentorat dans feature/offre_mentorat et de forms.py ; apps.p ; de urls.py dans matching sur feature/matching</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>HOUNGUE Jean</strong></td>
+                                    <td><a href="https://github.com/jeanhoungue800-hash" target="_blank"><i class="bi bi-github"></i>Jean</a></td>
+                                    <td>jeanhoungue800@gmail.com</td>
+                                    <td>Membre ayant fait l'installation complete de django avec la configuration de PostgreSQL chargé de feature/auth d'une partie(ajout du systeme d'inscription connexion et deconnexion avec postgres), gestion du mot de passe oublié</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MIGAN-PEDRO Fulrick</strong></td>
+                                    <td><a href="https://github.com/Fulrick" target="_blank"><i class="bi bi-github"></i>Fulrick</a></td>
+                                    <td>miganfulrick@gmail.com</td>
+                                    <td>Membre ayant fait le frontend du projet, principalement de la page d'accueil à la section paramètres, dans feature/frontend</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TCHEDE Charbel Prince</strong></td>
+                                    <td><a href="https://github.com/Charbel1313" target="_blank"><i class="bi bi-github"></i>Charbel1313</a></td>
+                                    <td>thdcharbel@gmail.com</td>
+                                    <td>Membre ayant fait le fichier views.py pour le matching, les fichiers urls.py et apps.py</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card card-custom p-4">
+                    <h5 class="mb-3"><i class="bi bi-gear-fill me-2 text-primary"></i>Méthodologie de travail</h5>
+                    <ul class="mb-0">
+                        <li><strong>Dépôt Git :</strong> <a href="https://github.com/Faridadss7/PIL1_2526_02" target="_blank" class="text-primary">github.com/Faridadss7/PIL1_2526_02</a></li>
+                        <li><strong>Organisation :</strong> Branches <code>main</code> (stable) et <code>dev</code> (intégration)</li><code>feauture/auth ,feature/messagerie,feature/matching,feature/offres_mentorat,feature/setup-django,</code>
+                        <li><strong>Communication :</strong> WhatsApp, google meet et réunions hebdomadaires</li>
+                        <li><strong>Outils :</strong> VS Code, Git, PostgreSQL, Django Admin</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Section 2: Architecture -->
+            <section id="architecture">
+                <h2 class="section-title">2. Architecture Technique</h2>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card card-custom p-4 text-center h-100">
+                            <div class="feature-icon mx-auto">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            <h5 class="fw-bold">Frontend</h5>
+                            <p class="text-muted small mb-0">HTML5, CSS3, Bootstrap 5, JavaScript</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card card-custom p-4 text-center h-100">
+                            <div class="feature-icon mx-auto">
+                                <i class="bi bi-server"></i>
+                            </div>
+                            <h5 class="fw-bold">Backend</h5>
+                            <p class="text-muted small mb-0">Python 3.12, Django 6.0.5</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card card-custom p-4 text-center h-100">
+                            <div class="feature-icon mx-auto">
+                                <i class="bi bi-database"></i>
+                            </div>
+                            <h5 class="fw-bold">Base de données</h5>
+                            <p class="text-muted small mb-0">PostgreSQL 18</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-diagram-3-fill me-2 text-primary"></i>Structure des applications Django</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-person-circle me-2 text-primary"></i><strong>accounts</strong> - Authentification, profil utilisateur</li>
+                                <li class="list-group-item"><i class="bi bi-link-45deg me-2 text-primary"></i><strong>matching</strong> - Algorithme de correspondance</li>
+                                <li class="list-group-item"><i class="bi bi-chat-dots me-2 text-primary"></i><strong>messagerie</strong> - Conversations et messages</li>
+                                <li class="list-group-item"><i class="bi bi-briefcase me-2 text-primary"></i><strong>offres</strong> - Offres et demandes de mentorat</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Schéma de la base de données</h6>
+                            <p class="small text-muted">9 Tables PostgreSQL :</p>
+                            <ul class="small text-muted">
+                                <li>utilisateurs, disponibilites</li>
+                                <li>competences, points_forts, points_faibles</li>
+                                <li>offres_mentorat, matching</li>
+                                <li>conversations, messages</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-custom p-4">
+                    <h5 class="mb-3"><i class="bi bi-calculator me-2 text-primary"></i>Algorithme de Matching</h5>
+                    <p>Le score de compatibilité est calculé selon 3 critères pondérés :</p>
+                    <div class="progress mb-3" style="height: 25px;">
+                        <div class="progress-bar bg-primary" style="width: 50%">Compétences (50%)</div>
+                        <div class="progress-bar bg-info" style="width: 30%">Disponibilités (30%)</div>
+                        <div class="progress-bar bg-warning" style="width: 20%">Filière (20%)</div>
+                    </div>
+                    <ul class="small text-muted mb-0">
+                        <li><strong>Compétences (50%) :</strong> Intersection entre points faibles du mentoré et points forts du mentor</li>
+                        <li><strong>Disponibilités (30%) :</strong> Jours et créneaux horaires communs</li>
+                        <li><strong>Filière (20%) :</strong> Bonus si même filière d'études</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Section 3: Déploiement -->
+            <section id="deploiement">
+                <h2 class="section-title">3. Guide de Déploiement</h2>
+                
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Note :</strong> Ce guide est conçu pour être accessible à tous, informaticiens ou non. Suivez les étapes dans l'ordre.
+                </div>
+                
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-4"><i class="bi bi-list-check me-2 text-primary"></i>Prérequis</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="step-card">
+                                <span class="step-number">1</span>
+                                <strong>Python 3.12.7 est la version la plus stable avec Django </strong>
+                                <p class="small text-muted mb-0">Téléchargez sur python.org</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step-card">
+                                <span class="step-number">2</span>
+                                <strong>PostgreSQL 18</strong>
+                                <p class="small text-muted mb-0">Téléchargez sur postgresql.org</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step-card">
+                                <span class="step-number">3</span>
+                                <strong>Git</strong>
+                                <p class="small text-muted mb-0">Pour cloner le dépôt</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step-card">
+                                <span class="step-number">4</span>
+                                <strong>Éditeur de code</strong>
+                                <p class="small text-muted mb-0">VS Code recommandé</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-4"><i class="bi bi-terminal me-2 text-primary"></i>Étapes d'installation</h5>
+                    
+                    <h6 class="fw-bold mt-4">Étape 1 : Cloner le projet</h6>
+                    <div class="code-block mb-4">
+    git clone https://github.com/Faridadss7/PIL1_2526_02.git
+    cd PIL1_2526_02
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 2 : Créer un environnement virtuel</h6>
+                    <p class="small text-muted mb-2">Windows :</p>
+                    <div class="code-block mb-2">
+      python -m venv venv
+      venv\Scripts\activate
+                    </div>
+                    <p class="small text-muted mb-2">Mac/Linux :</p>
+                    <div class="code-block mb-4">
+    python3 -m venv venv
+    source venv/bin/activate
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 3 : Installer les dépendances</h6>
+                    <div class="code-block mb-4">
+    pip install -r requirements.txt
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 4 : Configurer PostgreSQL</h6>
+                    <div class="code-block mb-4">
+    # Ouvrir pgAdmin ou psql
+    CREATE DATABASE mentorlink;
+    CREATE USER mentorlink_user WITH PASSWORD 'votre_mot_de_passe';
+    GRANT ALL PRIVILEGES ON DATABASE mentorlink TO mentorlink_user;
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 5 : Initialiser le schéma de base de données</h6>
+                    <div class="code-block mb-4">
+psql -U postgres -d mentorlink -f database/schema.sql
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 6 : Configurer les variables d'environnement</h6>
+                    <p class="small text-muted mb-2">Créer un fichier <code>.env</code> à la racine du projet : ou utiliser le fichier .env contenue dans le depot github que vous allez modifier juste le mot de passe en y insérant celui de postgres</p>
+                    <div class="code-block mb-4">
+DEBUG=True
+DJANGO_SECRET_KEY=votre_cle_secrete_ici
+DB_NAME=mentorlink
+DB_USER=postgres
+DB_PASSWORD=votre_mot_de_passe    <-----------Ici vous inserez votre mot de passe postgresql
+DB_HOST=localhost
+DB_PORT=5432
+ALLOWED_HOSTS=localhost,127.0.0.1
+EMAIL_HOST_USER=webtoonsarladss@gmail.com    <---------- Ici c'est le gmail qui envoie votre lien de connexion a l'application ou de réinitialisation du mot de passe(le lien envoyé marche uniquement sur votre pc en local .Merci)
+EMAIL_HOST_PASSWORD=khvx jlio xgig sapg
+                    </div>
+                    
+                    <h6 class="fw-bold mt-4">Étape 7 : Lancer le serveur de développement</h6>
+                    <div class="code-block mb-4">
+<p>py manage.py migrate</p>
+
+<p>py manage.py setup_metier</p>
+
+<p>python manage.py runserver</p>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <strong>Félicitations !</strong> L'application est maintenant accessible à <a href="http://127.0.0.1:8000" class="alert-link">http://127.0.0.1:8000</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 4: Manuel d'utilisation -->
+            <section id="manuel">
+                <h2 class="section-title">4. Manuel d'Utilisation</h2>
+                
+                <!-- Inscription -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Inscription</h5>
+                    <ol class="mb-0">
+                        <li>Accédez à la page d'accueil : <code>http://localhost:8000/</code></li>
+                        <li>Cliquez sur <strong>"Commencer"</strong> ou <strong>"Créer un compte"</strong></li>
+                        <li>Remplissez le formulaire avec vos informations personnelles (nom, prénom, email, téléphone, filière, niveau)</li>
+                        <li>Choisissez un mot de passe sécurisé</li>
+                        <li>Sélectionnez vos <strong>points forts</strong> (matières que vous maîtrisez)</li>
+                        <li>Sélectionnez vos <strong>points faibles</strong> (matières où vous avez besoin d'aide)</li>
+                        <li>Cliquez sur <strong>"S'inscrire"</strong></li>
+                        <li>Vérifiez votre boîte mail et cliquez sur le lien de confirmation (vérifiez le dossier Spam si nécessaire)</li>
+                    </ol>
+                </div>
+                
+                <!-- Connexion -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-box-arrow-in-right me-2 text-primary"></i>Connexion</h5>
+                    <ol class="mb-0">
+                        <li>Accédez à la page de connexion : <code>http://localhost:8000/accounts/connexion/</code></li>
+                        <li>Entrez votre adresse email et votre mot de passe</li>
+                        <li>Cliquez sur <strong>"Se connecter"</strong></li>
+                        <li>Vous serez redirigé vers votre tableau de bord</li>
+                    </ol>
+                </div>
+                
+                <!-- Profil -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-person-gear me-2 text-primary"></i>Gestion du Profil</h5>
+                    <ol class="mb-0">
+                        <li>Depuis le menu, cliquez sur <strong>"Profil"</strong></li>
+                        <li>Vous pouvez modifier vos informations personnelles</li>
+                        <li>Mettez à jour vos points forts et points faibles</li>
+                        <li>Ajoutez vos disponibilités (jour et créneaux horaires)</li>
+                        <li>Changez votre photo de profil</li>
+                        <li>Cliquez sur <strong>"Enregistrer"</strong> pour sauvegarder les modifications</li>
+                    </ol>
+                </div>
+                
+                <!-- Offres et Demandes -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-briefcase-fill me-2 text-primary"></i>Offres & Demandes</h5>
+                    <h6 class="fw-bold mt-3">Publier une offre (si vous êtes mentor)</h6>
+                    <ol class="mb-3">
+                        <li>Allez dans <strong>"Offres & Demandes"</strong></li>
+                        <li>Sélectionnez <strong>"Offre"</strong> dans le formulaire</li>
+                        <li>Cochez les compétences que vous pouvez enseigner (multi-sélection possible)</li>
+                        <li>Choisissez le format (présentiel, en ligne, hybride)</li>
+                        <li>Ajoutez vos disponibilités (jour, heure de début, heure de fin)</li>
+                        <li>Ajoutez une description optionnelle</li>
+                        <li>Cliquez sur <strong>"Publier"</strong></li>
+                    </ol>
+                    <h6 class="fw-bold mt-3">Publier une demande (si vous cherchez un mentor)</h6>
+                    <ol class="mb-0">
+                        <li>Allez dans <strong>"Offres & Demandes"</strong></li>
+                        <li>Sélectionnez <strong>"Demande"</strong> dans le formulaire</li>
+                        <li>Cochez les compétences pour lesquelles vous avez besoin d'aide</li>
+                        <li>Choisissez le format préféré</li>
+                        <li>Ajoutez vos disponibilités</li>
+                        <li>Ajoutez une description de vos besoins</li>
+                        <li>Cliquez sur <strong>"Publier"</strong></li>
+                    </ol>
+                </div>
+                
+                <!-- Recherche d'offres -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-search me-2 text-primary"></i>Recherche d'Offres</h5>
+                    <ol class="mb-0">
+                        <li>Depuis <strong>"Offres & Demandes"</strong>, utilisez les filtres de recherche</li>
+                        <li>Entrez un mot-clé pour chercher par matière</li>
+                        <li>Filtrez par disponibilité (jour)</li>
+                        <li>Les résultats s'affichent en temps réel</li>
+                        <li>Pour répondre à une offre, cliquez sur <strong>"Répondre"</strong></li>
+                        <li>Une demande de matching sera envoyée au mentor</li>
+                    </ol>
+                </div>
+                
+                <!-- Matching Automatique -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-link-45deg me-2 text-primary"></i>Matching Automatique</h5>
+                    <ol class="mb-0">
+                        <li>Allez dans <strong>"Correspondances"</strong> → <strong>"Lancer le matching"</strong></li>
+                        <li>L'algorithme analyse votre profil et calcule les scores de compatibilité</li>
+                        <li>Les mentors compatibles s'affichent avec leur score</li>
+                        <li>Pour chaque mentor, vous pouvez voir :
+                            <ul class="small text-muted mt-2">
+                                <li>Ses points forts (compétences maîtrisées)</li>
+                                <li>Ses disponibilités</li>
+                                <li>Les disponibilités communes</li>
+                                <li>Sa filière d'études</li>
+                            </ul>
+                        </li>
+                        <li>Cliquez sur <strong>"Contacter"</strong> pour envoyer une demande automatique</li>
+                        <li>Le mentor recevra une notification et pourra accepter ou refuser</li>
+                    </ol>
+                </div>
+                
+                <!-- Mes Matchings -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-people-fill me-2 text-primary"></i>Mes Matchings</h5>
+                    <ol class="mb-0">
+                        <li>Allez dans <strong>"Correspondances"</strong> → <strong>"Mes matchings"</strong></li>
+                        <li>Trois onglets sont disponibles :
+                            <ul class="small text-muted mt-2">
+                                <li><strong>Demandes reçues</strong> : Si vous êtes mentor, voyez qui vous contacte</li>
+                                <li><strong>Mes demandes envoyées</strong> : Voyez l'état de vos demandes</li>
+                                <li><strong>Matchings acceptés</strong> : Vos mentorats actifs</li>
+                            </ul>
+                        </li>
+                        <li>Acceptez ou refusez les demandes reçues</li>
+                        <li>Un matching accepté crée automatiquement une conversation</li>
+                    </ol>
+                </div>
+                
+                <!-- Messagerie -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-chat-dots-fill me-2 text-primary"></i>Messagerie</h5>
+                    <ol class="mb-0">
+                        <li>Accédez à <strong>"Messagerie"</strong> depuis le menu</li>
+                        <li>La liste de vos conversations s'affiche à gauche</li>
+                        <li>Cliquez sur une conversation pour l'ouvrir</li>
+                        <li>Tapez votre message et appuyez sur Entrée pour envoyer</li>
+                        <li>Les messages non lus sont marqués d'un badge</li>
+                        <li>Vous pouvez marquer tous les messages comme lus</li>
+                    </ol>
+                </div>
+                
+                <!-- Notifications -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-bell-fill me-2 text-primary"></i>Notifications</h5>
+                    <ol class="mb-0">
+                        <li>Le badge dans la sidebar affiche le nombre total de notifications</li>
+                        <li>Les notifications incluent :
+                            <ul class="small text-muted mt-2">
+                                <li>Messages non lus</li>
+                                <li>Demandes de matching en attente</li>
+                            </ul>
+                        </li>
+                        <li>Cliquez sur le badge pour voir le détail</li>
+                    </ol>
+                </div>
+                
+                <!-- Réinitialisation du mot de passe -->
+                <div class="card card-custom p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-key-fill me-2 text-primary"></i>Réinitialisation du Mot de Passe</h5>
+                    <ol class="mb-0">
+                        <li>Sur la page de connexion, cliquez sur <strong>"Mot de passe oublié ?"</strong></li>
+                        <li>Entrez votre adresse email</li>
+                        <li>Cliquez sur <strong>"Envoyer le lien"</strong></li>
+                        <li>Vérifiez votre boîte mail (vérifiez le dossier Spam)</li>
+                        <li>Cliquez sur le lien de réinitialisation reçu</li>
+                        <li>Entrez votre nouveau mot de passe</li>
+                        <li>Confirmez et sauvegardez</li>
+                    </ol>
+                </div>
+                
+                <!-- Déconnexion -->
+                <div class="card card-custom p-4">
+                    <h5 class="mb-3"><i class="bi bi-box-arrow-right me-2 text-primary"></i>Déconnexion</h5>
+                    <ol class="mb-0">
+                        <li>Cliquez sur votre nom en haut à droite de l'écran</li>
+                        <li>Sélectionnez <strong>"Déconnexion"</strong></li>
+                        <li>Vous serez redirigé vers la page de connexion</li>
+                    </ol>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="fw-bold mb-3">IFRI MentorLink</h5>
+                <p class="small text-muted mb-0">Plateforme de mentorat étudiant - Projet Intégrateur PIL1 2025-2026</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="small text-muted mb-0">Groupe 02 — Université d'Abomey-Calavi</p>
+                <p class="small text-muted mb-0">Institut de Formation et de Recherche en Informatique</p>
+            </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+        <p class="text-center small mb-0">© 2026 IFRI MentorLink — Tous droits réservés</p>
+    </div>
+</footer>
+
+<!-- Scroll to top button -->
+<div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <i class="bi bi-arrow-up"></i>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
